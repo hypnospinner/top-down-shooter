@@ -10,6 +10,7 @@ public class PlayerMovementController : MonoBehaviour
     [Header("Movement Values")]
 
     [SerializeField] private float MovementSpeed;
+    [SerializeField] private float MovementAcceleration;
 
     [Header("Player Collider Settings")]
 
@@ -26,6 +27,7 @@ public class PlayerMovementController : MonoBehaviour
 
     private PlayerInputController _inputController;
     private CapsuleCollider _playerCollider;
+    private Vector2 _oldVelocityDirection;
 
     #endregion
 
@@ -49,11 +51,17 @@ public class PlayerMovementController : MonoBehaviour
 
     private void MovePlayer()
     {
+        Vector2 _movementDirection = (Vector2.Lerp(
+            new Vector2(_inputController.RightInput, _inputController.ForwardInput),
+            _oldVelocityDirection,
+            Time.fixedDeltaTime * MovementAcceleration)).normalized;
+
         transform.position += (
-            transform.forward * _inputController.ForwardInput +
-            transform.right * _inputController.RightInput
+            transform.forward * _movementDirection.y +
+            transform.right * _movementDirection.x
             ) * MovementSpeed * Time.fixedDeltaTime;
 
+        _oldVelocityDirection = new Vector2(_inputController.RightInput, _inputController.ForwardInput);
     }
 
     private void StickPlayerToTheGround()

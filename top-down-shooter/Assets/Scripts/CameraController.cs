@@ -8,17 +8,17 @@ public class CameraController : MonoBehaviour
 
     private void Awake()
     {
+        transform.position = Target.position + Offset;
         transform.LookAt(Target);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         transform.position = Vector3.Lerp(
             transform.position, 
             Target.position + Offset, 
-            MovementSpeed * Time.deltaTime
+            MovementSpeed * Time.fixedDeltaTime
             );
-        transform.LookAt(Target);
     }
 
 }
