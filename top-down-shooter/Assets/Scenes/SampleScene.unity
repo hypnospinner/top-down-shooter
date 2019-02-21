@@ -508,7 +508,7 @@ MonoBehaviour:
   GroundingSphereRadius: 0.4
   ObstacleLayerMask:
     serializedVersion: 2
-    m_Bits: 6656
+    m_Bits: 2560
   GroundLayerMask:
     serializedVersion: 2
     m_Bits: 512
