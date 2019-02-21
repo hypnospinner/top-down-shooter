@@ -8,7 +8,7 @@
 [RequireComponent(typeof(PlayerInputController))]
 [RequireComponent(typeof(SphereCollider))]
 [RequireComponent(typeof(CapsuleCollider))]
-[RequireComponent(typeof(Rigidbody))]
+//[RequireComponent(typeof(Rigidbody))]
 public class PlayerMovementController : MonoBehaviour
 {
     #region Fields
@@ -39,18 +39,22 @@ public class PlayerMovementController : MonoBehaviour
         [SerializeField]
             [Range(0f, .2f)] private float AutoStickToGroundDistance;       // distance player firstly sticks to the ground befor all grounding computations
 
+    [Header("Physics settings")]
+
+        [SerializeField] private float PlayerMass;                          // mass for calculating impact
+        [SerializeField] private LayerMask PhysicsLayerMask;                // layer mask for interaction with physical objects
+
     // private fields
 
-    private PlayerInputController _inputController;                     // player input handler
+    private PlayerInputController _inputController;                         // player input handler
 
-    private CapsuleCollider _playerCollider;                            // collider for obstacle checking
-    private SphereCollider _groundingCollider;                          // collider used for checking ground
-    private Rigidbody _rigidbody;                                       // rigidbody for quering physics interaction
+    private CapsuleCollider _playerCollider;                                // collider for obstacle checking
+    private SphereCollider _groundingCollider;                              // collider used for checking ground
 
-    private Vector2 _oldVelocityDirection;                              // velocity on the previous frame 
-    private float _gravityVelocity;                                     // stores velocity of gravity
+    private Vector2 _oldVelocityDirection;                                  // velocity on the previous frame 
+    private float _gravityVelocity;                                         // stores velocity of gravity
 
-    private const float k_groundSticknessAccuracy = 0.01f;              // minimum distance to be mesured for calculating grounding
+    private const float k_groundSticknessAccuracy = 0.01f;                  // minimum distance to be mesured for calculating grounding
     private const float k_gravity = 9.8f;
     #endregion
 
@@ -70,6 +74,7 @@ public class PlayerMovementController : MonoBehaviour
             _groundingCollider.radius = GroundingSphereRadius;
             _groundingCollider.center = transform.up * GroundingSphereRadius;
         }
+        else Debug.LogError("Player Sphere Collider is not set!!!");
 
         _playerCollider = GetComponent<CapsuleCollider>();
         if (_playerCollider != null)
@@ -78,14 +83,7 @@ public class PlayerMovementController : MonoBehaviour
             _playerCollider.radius = PlayerRadius;
             _playerCollider.center = transform.up * (PlayerHeight / 2 + MaxStepHeight);
         }
-        else Debug.LogError("Player Capsul Collider is not set!!!");
-
-        _rigidbody = GetComponent<Rigidbody>();
-        if(_rigidbody != null)
-        {
-            _rigidbody.useGravity = false;
-            _rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
-        }
+        else Debug.LogError("Player Capsule Collider is not set!!!");
 
         // ground checker setup
 
@@ -100,7 +98,6 @@ public class PlayerMovementController : MonoBehaviour
     private void FixedUpdate()
     {
         MovePlayer();
-        ResolveCollision();
         StickPlayerToTheGround();
         ResolveCollision();
     }
@@ -112,10 +109,10 @@ public class PlayerMovementController : MonoBehaviour
             _oldVelocityDirection,
             Time.fixedDeltaTime * MovementAcceleration)).normalized;
 
-        transform.position += (
-            transform.forward * _movementDirection.y +
-            transform.right * _movementDirection.x
-            ) * MovementSpeed * Time.fixedDeltaTime;
+        transform.position += 
+            (_movementDirection.y * transform.forward + 
+            _movementDirection.x * transform.right) * 
+            MovementSpeed * Time.fixedDeltaTime;
 
         _oldVelocityDirection = new Vector2(_inputController.RightInput, _inputController.ForwardInput);
     }
@@ -212,7 +209,7 @@ public class PlayerMovementController : MonoBehaviour
             transform.position + _playerCollider.center - (transform.up * (PlayerHeight - 2 * PlayerRadius) / 2),
             transform.position + _playerCollider.center + (transform.up * (PlayerHeight - 2 * PlayerRadius) / 2),
             PlayerRadius, 
-            ObstacleLayerMask,
+            ObstacleLayerMask | PhysicsLayerMask,
             QueryTriggerInteraction.Ignore
             );
 
@@ -223,22 +220,41 @@ public class PlayerMovementController : MonoBehaviour
             float collisionResolveDistance;
 
             if (Physics.ComputePenetration(
-                _playerCollider, 
-                transform.position, 
+                _playerCollider,
+                transform.position,
                 transform.rotation,
-                collider, 
-                collider.transform.position, 
+                collider,
+                collider.transform.position,
                 collider.transform.rotation,
-                out collisionResolveDirection, 
+                out collisionResolveDirection,
                 out collisionResolveDistance
                 ))
+            {
+                // apply force to physical objects
+                if (SatisfiesMask(collider.gameObject, PhysicsLayerMask))
+                {
+                    Rigidbody colliderRigidbody = collider.GetComponent<Rigidbody>();
+
+                    colliderRigidbody?.AddForce(
+                        -collisionResolveDirection.normalized * MovementSpeed * PlayerMass / colliderRigidbody.mass,
+                        ForceMode.Force);
+                }
+                
                 transform.position += collisionResolveDistance * collisionResolveDirection;
+            }
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private bool SatisfiesMask(GameObject gameObject, LayerMask mask)
     {
-        
+        // the power for 2
+        int gameObjectLayer = gameObject.layer;
+        int convertedToMask = 1;
+
+        for (int i = 0; i < gameObjectLayer; i++)
+            convertedToMask = convertedToMask << 1;
+
+        return (convertedToMask & mask.value) != 0;
     }
 
     #endregion
