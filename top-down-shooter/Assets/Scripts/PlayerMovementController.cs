@@ -4,10 +4,11 @@
 // inportant to be sure it's calculated in write order
 // should make playground checks
 
-[RequireComponent(
-    typeof(PlayerInputController),
-    typeof(CapsuleCollider),
-    typeof(SphereCollider))]
+
+[RequireComponent(typeof(PlayerInputController))]
+[RequireComponent(typeof(SphereCollider))]
+[RequireComponent(typeof(CapsuleCollider))]
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerMovementController : MonoBehaviour
 {
     #region Fields
@@ -16,27 +17,27 @@ public class PlayerMovementController : MonoBehaviour
 
     [Header("Movement Values")]
 
-    [SerializeField] private float MovementSpeed;                       // how quicly player moves
-    [SerializeField] private float MovementAcceleration;                // how quickly players speed changes
+        [SerializeField] private float MovementSpeed;                       // how quicly player moves
+        [SerializeField] private float MovementAcceleration;                // how quickly players speed changes
 
     [Header("Player Collider Settings")]
 
-    [SerializeField] private float PlayerHeight;                        // player capsule collider height
-    [SerializeField] private float PlayerRadius;                        // player capsule collider radius
-    [SerializeField] private float GroundingSphereRadius;               // sphere that is used for checking grounding
+        [SerializeField] private float PlayerHeight;                        // player capsule collider height
+        [SerializeField] private float PlayerRadius;                        // player capsule collider radius
+        [SerializeField] private float GroundingSphereRadius;               // sphere that is used for checking grounding
 
     [Header("Collision Detection Settings")]
 
-    [SerializeField] private LayerMask ObstacleLayerMask;               // list of layers with obstacle objects
+        [SerializeField] private LayerMask ObstacleLayerMask;               // list of layers with obstacle objects
 
     [Header("Grounding Settings")]
 
-    [SerializeField] private LayerMask GroundLayerMask;                 // list of layers with everything considered to be ground
-    [SerializeField] [Range(0f, 90f)] private float MaxSlopeAngle;      // max slope angle player can stand
-    [SerializeField] [Range(0f, 1f)] private float MaxStepHeight;       
-    [SerializeField] Transform GroundingChecker;                        // transform for grounding sphere
-    [SerializeField]
-        [Range(0f, .2f)] private float AutoStickToGroundDistance;       // distance player firstly sticks to the ground befor all grounding computations
+        [SerializeField] private LayerMask GroundLayerMask;                 // list of layers with everything considered to be ground
+        [SerializeField] [Range(0f, 90f)] private float MaxSlopeAngle;      // max slope angle player can stand
+        [SerializeField] [Range(0f, 1f)] private float MaxStepHeight;       
+        [SerializeField] Transform GroundingChecker;                        // transform for grounding sphere
+        [SerializeField]
+            [Range(0f, .2f)] private float AutoStickToGroundDistance;       // distance player firstly sticks to the ground befor all grounding computations
 
     // private fields
 
