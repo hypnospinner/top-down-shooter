@@ -196,7 +196,7 @@ public class PlayerMovementController : MonoBehaviour
 
     private void ResolveCollision()
     {
-        // getting oabstacle colliders that we hit after performing move
+        // getting obstacle colliders that we hit after performing move
         Collider[] colliders = Physics.OverlapCapsule(
             transform.position + _playerCollider.center - (transform.up * (PlayerHeight - 2 * PlayerRadius) / 2),
             transform.position + _playerCollider.center + (transform.up * (PlayerHeight - 2 * PlayerRadius) / 2),
@@ -223,6 +223,11 @@ public class PlayerMovementController : MonoBehaviour
                 ))
                 transform.position += collisionResolveDistance * collisionResolveDirection;
         }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log(collision.collider.name);
     }
 
     #endregion
