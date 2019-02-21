@@ -33,6 +33,7 @@ public class PlayerMovementController : MonoBehaviour
 
     [SerializeField] private LayerMask GroundLayerMask;                 // list of layers with everything considered to be ground
     [SerializeField] [Range(0f, 90f)] private float MaxSlopeAngle;      // max slope angle player can stand
+    [SerializeField] [Range(0f, 1f)] private float MaxStepHeight;       
     [SerializeField] Transform GroundingChecker;                        // transform for grounding sphere
     [SerializeField]
         [Range(0f, .2f)] private float AutoStickToGroundDistance;       // distance player firstly sticks to the ground befor all grounding computations
@@ -43,6 +44,7 @@ public class PlayerMovementController : MonoBehaviour
 
     private CapsuleCollider _playerCollider;                            // collider for obstacle checking
     private SphereCollider _groundingCollider;                          // collider used for checking ground
+    private Rigidbody _rigidbody;                                       // rigidbody for quering physics interaction
 
     private Vector2 _oldVelocityDirection;                              // velocity on the previous frame 
     private float _gravityVelocity;                                     // stores velocity of gravity
@@ -73,9 +75,16 @@ public class PlayerMovementController : MonoBehaviour
         {
             _playerCollider.height = PlayerHeight;
             _playerCollider.radius = PlayerRadius;
-            _playerCollider.center = transform.up * (PlayerHeight / 2 + GroundingSphereRadius);
+            _playerCollider.center = transform.up * (PlayerHeight / 2 + MaxStepHeight);
         }
         else Debug.LogError("Player Capsul Collider is not set!!!");
+
+        _rigidbody = GetComponent<Rigidbody>();
+        if(_rigidbody != null)
+        {
+            _rigidbody.useGravity = false;
+            _rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+        }
 
         // ground checker setup
 
@@ -90,6 +99,7 @@ public class PlayerMovementController : MonoBehaviour
     private void FixedUpdate()
     {
         MovePlayer();
+        ResolveCollision();
         StickPlayerToTheGround();
         ResolveCollision();
     }
@@ -227,7 +237,7 @@ public class PlayerMovementController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.collider.name);
+        
     }
 
     #endregion
