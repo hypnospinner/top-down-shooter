@@ -517,7 +517,7 @@ MonoBehaviour:
   GroundingChecker: {fileID: 1597827403}
   AutoStickToGroundDistance: 0.01
   PlayerMass: 30
-  PushFriction: 5
+  PushFriction: 30
   PhysicsLayerMask:
     serializedVersion: 2
     m_Bits: 4096

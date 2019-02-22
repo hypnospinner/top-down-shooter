@@ -1,14 +1,11 @@
 ﻿using UnityEngine;
 
 // TODO: implement physics interaction (calculating hit and hitting onjects depending on their mass)
-// inportant to be sure it's calculated in write order
-// should make playground checks
-
+// important to be sure it's calculated in write order
 
 [RequireComponent(typeof(PlayerInputController))]
 [RequireComponent(typeof(SphereCollider))]
 [RequireComponent(typeof(CapsuleCollider))]
-//[RequireComponent(typeof(Rigidbody))]
 public class PlayerMovementController : MonoBehaviour
 {
     #region Fields
@@ -56,12 +53,30 @@ public class PlayerMovementController : MonoBehaviour
 
     private const float k_groundSticknessAccuracy = 0.01f;                  // minimum distance to be mesured for calculating grounding
     private const float k_gravity = 9.8f;
+
     #endregion
 
     #region Behaviour
 
+    // Warning! This is setup for a buggy physics
+
+    //public void PushPlayer(Vector3 direction, float forceValue)
+    //{
+    //    Debug.Log("Push Player Call");
+
+    //    direction = new Vector3(direction.x, 0f, direction.z).normalized;
+    //    if (!Mathf.Approximately(forceValue, 0f))
+    //    {
+    //        Debug.Log("Added push force");
+    //        _push += direction * forceValue;
+    //        _isPushed = true;
+    //    }
+    //}
+
     private void Awake()
     {
+        _isPushed = false;
+
         _inputController = GetComponent<PlayerInputController>();
         if (_inputController == null)
             Debug.LogError("Input Controller is not set!!!");
@@ -244,6 +259,26 @@ public class PlayerMovementController : MonoBehaviour
             }
         }
     }
+
+    // Warning! This is setup for a buggy physics
+
+    //private void CalculatePush()
+    //{
+    //    if (_isPushed)
+    //    {
+
+    //        _push -= _push.normalized * PlayerMass * PushFriction * Time.fixedDeltaTime;
+    //        Debug.Log("Calculating Push: " + _push.magnitude);
+
+    //        if (Mathf.Approximately(_push.sqrMagnitude, 0f))
+    //        {
+    //            _isPushed = false;
+    //            _push = Vector3.zero;
+    //            return;
+    //        }
+    //        transform.position += _push * Time.fixedDeltaTime;
+    //    }
+    //}
 
     private bool SatisfiesMask(GameObject gameObject, LayerMask mask)
     {
