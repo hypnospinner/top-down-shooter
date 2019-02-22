@@ -1,33 +1,24 @@
 ﻿using UnityEngine;
 
-[RequireComponent(
-    typeof(PlayerInputController),
-    typeof(CapsuleCollider))]
+/*  
+ *  TODO: Incapuslate unnessecary fields in their calses
+ *  TODO: Implement Ability System support (bounded with Inventory (or interaction system)
+ */
+
+[RequireComponent(typeof(KinematicCharacterController))]
+[RequireComponent(typeof(PlayerInputController))]
 public class PlayerMovementController : MonoBehaviour
 {
     #region Fields
 
-    [Header("Movement Values")]
+    [Header("Player Stats")]
 
-    [SerializeField] private float MovementSpeed;
-    [SerializeField] private float MovementAcceleration;
+        [SerializeField] private float MovementSpeed;               // movement speed of player
+        [SerializeField] private float RotationSpeed;               // speed of player rotation
 
-    [Header("Player Collider Settings")]
-
-    [SerializeField] private float PlayerHeight;
-    [SerializeField] private float PlayerRadius;
-
-    [Header("Collision Detection Settings")]
-
-    [SerializeField] private LayerMask ObstacleLayerMask;
-
-    [Header("Grounding Settings")]
-
-    [SerializeField] private LayerMask GroundLayerMask;
-
-    private PlayerInputController _inputController;
-    private CapsuleCollider _playerCollider;
-    private Vector2 _oldVelocityDirection;
+    // private fields
+    private KinematicCharacterController _characterController;      // responsible for all movement calculations
+    private PlayerInputController _playerInput;                     // responsible for input
 
     #endregion
 
@@ -35,65 +26,26 @@ public class PlayerMovementController : MonoBehaviour
 
     private void Awake()
     {
-        _inputController = GetComponent<PlayerInputController>();
-
-        _playerCollider = GetComponent<CapsuleCollider>();
-        _playerCollider.height = PlayerHeight;
-        _playerCollider.radius = PlayerRadius;
+        _characterController = GetComponent<KinematicCharacterController>();
+        _playerInput = GetComponent<PlayerInputController>();
     }
 
     private void FixedUpdate()
     {
-        MovePlayer();
-        StickPlayerToTheGround();
-        ResolveCollision();
-    }
+        // moving player
+        if (_playerInput.IsMoving)
+            _characterController.MovePlayer(
+                new Vector2(_playerInput.ForwardInput, _playerInput.RightInput), 
+                MovementSpeed);
 
-    private void MovePlayer()
-    {
-        Vector2 _movementDirection = (Vector2.Lerp(
-            new Vector2(_inputController.RightInput, _inputController.ForwardInput),
-            _oldVelocityDirection,
-            Time.fixedDeltaTime * MovementAcceleration)).normalized;
+        // rotating player
+        Vector3 lookDirection = _playerInput.PointerPosition - transform.position;
+        lookDirection.y = 0;
 
-        transform.position += (
-            transform.forward * _movementDirection.y +
-            transform.right * _movementDirection.x
-            ) * MovementSpeed * Time.fixedDeltaTime;
-
-        _oldVelocityDirection = new Vector2(_inputController.RightInput, _inputController.ForwardInput);
-    }
-
-    private void StickPlayerToTheGround()
-    {
-        RaycastHit hit;
-        Ray ray = new Ray(transform.position, -transform.up);
-
-        if (Physics.Raycast(ray, out hit, PlayerHeight * 1.5f / 2, GroundLayerMask))
-            transform.position = hit.point + transform.up * PlayerHeight / 2;
-        else
-            transform.position -= transform.up * 9.8f * Time.fixedDeltaTime;
-    }
-
-    private void ResolveCollision()
-    {
-        Collider[] colliders = Physics.OverlapCapsule(
-            transform.position + transform.up * (PlayerHeight - 2 * PlayerRadius) / 2,
-            transform.position - transform.up * (PlayerHeight - 2 * PlayerRadius) / 2,
-            PlayerRadius, ObstacleLayerMask);
-
-        foreach (Collider collider in colliders)
-        {
-            Vector3 collisionResolveDirection;
-            float collisionResolveDistance;
-
-            if (Physics.ComputePenetration(
-                _playerCollider, transform.position, transform.rotation,
-                collider, collider.transform.position, collider.transform.rotation,
-                out collisionResolveDirection, out collisionResolveDistance
-                ))
-                transform.position += collisionResolveDistance * collisionResolveDirection;
-        }
+        transform.rotation = Quaternion.Slerp(
+            transform.rotation,
+            Quaternion.LookRotation(lookDirection, Vector3.up),
+            RotationSpeed * Time.fixedDeltaTime);
     }
 
     #endregion
