@@ -75,8 +75,6 @@ public class PlayerMovementController : MonoBehaviour
 
     private void Awake()
     {
-        _isPushed = false;
-
         _inputController = GetComponent<PlayerInputController>();
         if (_inputController == null)
             Debug.LogError("Input Controller is not set!!!");
