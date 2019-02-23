@@ -35,8 +35,3 @@ public abstract class GunBase : MonoBehaviour
 
     #endregion
 }
-
-public enum AmmoType
-{
-    PistolAmmo
-}
