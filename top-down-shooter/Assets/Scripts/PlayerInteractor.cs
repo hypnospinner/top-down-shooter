@@ -42,7 +42,7 @@ public class PlayerInteractor : MonoBehaviour
         _currentInteractiveObject = FindCurrentInteractive();
 
         if (_inputController.IsInteracting)
-            _currentInteractiveObject?.Interact(gameObject);
+            _currentInteractiveObject?.Interact(gameObject.transform.root.gameObject);
     }
 
     private InteractiveObject FindCurrentInteractive()
