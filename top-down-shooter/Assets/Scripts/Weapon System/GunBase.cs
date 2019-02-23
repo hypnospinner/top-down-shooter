@@ -5,10 +5,13 @@ public abstract class GunBase : MonoBehaviour
 {
     #region Fields 
 
-    // delegates
-    protected delegate bool CheckForButtonState(ButtonState buttonState);
+    [SerializeField] protected GameObject Projectile;
+    [SerializeField] protected Transform Muzzle;
 
     // private variables
+    protected delegate bool CheckStateDelegate();
+    protected CheckStateDelegate _reloadChecker;
+    protected CheckStateDelegate _attackChecker;
     protected PlayerInputController _inputController;
     protected bool _isReady;
 
@@ -16,7 +19,7 @@ public abstract class GunBase : MonoBehaviour
 
     #region Behaviour
 
-    protected void Awake()
+    protected virtual void Awake()
     {
         _isReady = true;
 
@@ -25,9 +28,18 @@ public abstract class GunBase : MonoBehaviour
             Debug.LogError("PLayer Input Controller is not set!!!");
     }
 
-    protected abstract void RunReload(CheckForButtonState ButtonStateChecker);
+    protected virtual void Update()
+    {
+        if (_reloadChecker())
+            RunReload();
 
-    protected abstract void RunAttack(CheckForButtonState ButtonStateChecker);
+        if (_attackChecker())
+            RunAttack();
+    }
+
+    protected abstract void RunReload();
+
+    protected abstract void RunAttack();
 
     protected abstract IEnumerator Reload();
 

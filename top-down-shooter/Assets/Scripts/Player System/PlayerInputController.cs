@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class PlayerInputController : MonoBehaviour
+public sealed class PlayerInputController : MonoBehaviour
 {
     #region Fields
 
