@@ -47,6 +47,8 @@ public class PlayerInputController : MonoBehaviour
         GetMovementInput();
 
         GetPointerPosition();
+
+        GetInterctionInput();
     }
 
     private void GetMovementInput()
