@@ -11,6 +11,7 @@ public class PlayerInputController : MonoBehaviour
     private Vector2 _movementInput;                         // WS - forward and AD - right input
     private bool _isMoving;                                 // wether we made any input or not
     private Pointer _pointer;                               // storing data about place we point
+    private bool _isInteracting;                            // wether player is attempting to interact with interactive object
 
     // properties
     public float ForwardInput                               // public readonly WS input
@@ -22,7 +23,9 @@ public class PlayerInputController : MonoBehaviour
     public Vector3 PointerPosition                          // public readonly place we point in our space
         { get => _pointer.hitPoint; }                       
     public GameObject PointerObject                         // public readonly gameobject we hit
-        { get => _pointer.hitGameObject; }                  
+        { get => _pointer.hitGameObject; }
+    public bool IsInteracting                               // public readonly if player is trying to interact
+        { get => _isInteracting; }
 
     #endregion
 
@@ -44,6 +47,8 @@ public class PlayerInputController : MonoBehaviour
         GetMovementInput();
 
         GetPointerPosition();
+
+        GetInterctionInput();
     }
 
     private void GetMovementInput()
@@ -69,6 +74,12 @@ public class PlayerInputController : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, 100f, PointerLayerMask, QueryTriggerInteraction.Ignore))
             _pointer = new Pointer(hit.point, hit.transform.gameObject);
+    }
+
+    private void GetInterctionInput()
+    {
+        // TODO: Use Input.GetButtonDown (add new Button)
+        _isInteracting = Input.GetKeyDown(KeyCode.E) ? true : false;
     }
 
     #endregion
