@@ -30,7 +30,6 @@ public sealed class PistolController : GunBase
 
     protected override void RunAttack()
     {
-        Debug.Log("Run Attack call");
         if (_isReady && _clip > 0)
             StartCoroutine(Attack());
     }
