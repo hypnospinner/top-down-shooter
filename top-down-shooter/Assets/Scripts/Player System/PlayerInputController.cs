@@ -52,6 +52,8 @@ public sealed class PlayerInputController : MonoBehaviour
 
         GetPointerPosition();
 
+        GetWeaponInput();
+
         if (PlayerCamera == null)
             Debug.Log("Player Camera for calculating pointer is not set!!");
     }
