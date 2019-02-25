@@ -78,7 +78,10 @@ public class PlayerInteractor : MonoBehaviour
             InteractiveObject interactive = other.GetComponent<InteractiveObject>();
 
             if (interactive != null)
+            {
                 _interactiveObjects.Add(interactive);
+                interactive.Interactor = this;
+            }
         }
     }
 
@@ -93,11 +96,16 @@ public class PlayerInteractor : MonoBehaviour
             if (interactive != null)
             {
                 _interactiveObjects.Remove(interactive);
-
+                interactive.Interactor = null;
                 if (interactive == _currentInteractiveObject)
                     _currentInteractiveObject = FindCurrentInteractive();
             }
         }
+    }
+
+    public void InteractedWithDestruction(InteractiveObject destructedInteractive)
+    {
+        _interactiveObjects.Remove(destructedInteractive);
     }
     #endregion
 }
