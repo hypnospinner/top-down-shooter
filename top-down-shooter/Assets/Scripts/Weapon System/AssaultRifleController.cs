@@ -24,9 +24,9 @@ class AssaultRifleController : GunBase
         _clip = ClipSize;
         _ammo = MaxAmmo;
 
-        _reloadChecker = () => _inputController.RealoadingButton == ButtonState.Down;
-        _attackChecker = () => _inputController.LeftMouseButton == ButtonState.Down || 
-                               _inputController.LeftMouseButton == ButtonState.Hold;
+        _reloadChecker = () => _ableToGetInput ? _inputController.RealoadingButton == ButtonState.Down : false;
+        _attackChecker = () => _ableToGetInput ? _inputController.LeftMouseButton == ButtonState.Down || 
+                               _inputController.LeftMouseButton == ButtonState.Hold : false;
     }
 
     protected override void RunAttack()

@@ -14,6 +14,17 @@ public abstract class GunBase : MonoBehaviour
     protected CheckStateDelegate _attackChecker;
     protected PlayerInputController _inputController;
     protected bool _isReady;
+    protected bool _ableToGetInput;
+
+    public PlayerInputController InputController
+    {
+        get => _inputController;
+        set
+        {
+            _ableToGetInput = value == null ? false : true;
+            _inputController = value;
+        }
+    }
 
     #endregion
 
@@ -21,11 +32,8 @@ public abstract class GunBase : MonoBehaviour
 
     protected virtual void Awake()
     {
+        _ableToGetInput = false;
         _isReady = true;
-
-        _inputController = transform.root.GetComponent<PlayerInputController>();
-        if (_inputController == null)
-            Debug.LogError("PLayer Input Controller is not set!!!");
     }
 
     protected virtual void Update()
