@@ -64,7 +64,6 @@ public class PlayerInteractor : MonoBehaviour
                     current = interactiveObject;
                 }
             }
-            Debug.Log(current.gameObject);
 
             return current;
         }
