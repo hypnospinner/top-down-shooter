@@ -42,8 +42,6 @@ public abstract class Weapon : MonoBehaviour
 
         if (FireInput == null ? false : FireInput())
             StartCoroutine(Fire());
-
-        Debug.Log(FireInput());
     }
 
     protected abstract IEnumerator Fire();
