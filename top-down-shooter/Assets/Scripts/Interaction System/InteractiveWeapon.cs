@@ -1,23 +1,15 @@
 ﻿using UnityEngine;
 
-public class InteractiveWeapon : InteractiveObject
+class InteractiveWeapon : InteractiveObject
 {
-    [SerializeField] private GameObject StoredWeapon;
+    private WeaponData _weaponData;
 
     public override void Interact(GameObject interactor)
     {
-        WeaponController weaponController = interactor.GetComponentInChildren<WeaponController>();
-        if (weaponController.PickNewWeapon(StoredWeapon, this))
-        {
-            _interactor.InteractedWithDestruction(this);
-            Destroy(gameObject);
-        }
-    }
+        _weaponData =
+            interactor.GetComponentInParent<WeaponController>().PickWeapon(_weaponData);
 
-    public void SetWeapon(GameObject newWeapon)
-    {
-        StoredWeapon = newWeapon;
-        StoredWeapon.transform.position = transform.position;
-        StoredWeapon.SetActive(false);
+        if (_weaponData == null)
+            Destroy();
     }
 }

@@ -2,7 +2,6 @@
 using UnityEngine;
 
 // TODO: Add support for highlighing interactive objects
-
 [RequireComponent(typeof(SphereCollider))]
 public class PlayerInteractor : MonoBehaviour
 {
@@ -10,6 +9,7 @@ public class PlayerInteractor : MonoBehaviour
 
     [SerializeField] private float InteractionRadius;
 
+    private InteractiveObject.InteractiveObjectStateHandler _removeInteractive;
     private SphereCollider _interactionZone;
     private List<InteractiveObject> _interactiveObjects;
     private InteractiveObject _currentInteractiveObject;
@@ -35,6 +35,8 @@ public class PlayerInteractor : MonoBehaviour
             _interactionZone.center = new Vector3(0f, InteractionRadius / 3, InteractionRadius / 2);
         }
         else Debug.LogError("Interaction Zone Collider is not set!!!");
+
+        _removeInteractive = interactive => _interactiveObjects.Remove(interactive);
     }
 
     private void Update()
@@ -74,13 +76,12 @@ public class PlayerInteractor : MonoBehaviour
     {
         if (other.CompareTag("interactive"))
         {
-            Debug.Log("Adding interactive");
             InteractiveObject interactive = other.GetComponent<InteractiveObject>();
 
             if (interactive != null)
             {
                 _interactiveObjects.Add(interactive);
-                interactive.Interactor = this;
+                interactive.OnDestroy += _removeInteractive;
             }
         }
     }
@@ -89,14 +90,12 @@ public class PlayerInteractor : MonoBehaviour
     {
         if (other.CompareTag("interactive"))
         {
-            Debug.Log("Removing interactive");
-
             InteractiveObject interactive = other.GetComponent<InteractiveObject>();
 
             if (interactive != null)
             {
                 _interactiveObjects.Remove(interactive);
-                interactive.Interactor = null;
+                interactive.OnDestroy -= _removeInteractive;
                 if (interactive == _currentInteractiveObject)
                     _currentInteractiveObject = FindCurrentInteractive();
             }
@@ -104,7 +103,8 @@ public class PlayerInteractor : MonoBehaviour
     }
 
     public void InteractedWithDestruction(InteractiveObject destructedInteractive)
-    {
+    
+{
         _interactiveObjects.Remove(destructedInteractive);
     }
     #endregion

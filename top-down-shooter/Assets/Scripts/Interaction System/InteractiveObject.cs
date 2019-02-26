@@ -1,13 +1,16 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class InteractiveObject : MonoBehaviour
 {
-    protected PlayerInteractor _interactor;
+    public delegate void InteractiveObjectStateHandler(InteractiveObject interactiveObject);
+    public event InteractiveObjectStateHandler OnDestroy;
 
-    public PlayerInteractor Interactor { get => _interactor; set => _interactor = value; }
+    public virtual void Interact(GameObject interactor) { }
 
-    public virtual void Interact(GameObject interactor)
+    protected void Destroy()
     {
-        Debug.Log("Base Interaction call");
+        OnDestroy?.Invoke(this);
+        Destroy(gameObject);
     }
 }
