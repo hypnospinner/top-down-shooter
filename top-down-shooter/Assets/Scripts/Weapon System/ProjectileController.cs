@@ -31,10 +31,7 @@ public class ProjectileController : MonoBehaviour
             _stepMoveDistance, 
             AttackMask, 
             QueryTriggerInteraction.Ignore))
-        {
-            Debug.Log("Hit " + hit.transform.name);
             Destroy(gameObject);
-        }
 
         transform.position += transform.forward * _stepMoveDistance;
     }
