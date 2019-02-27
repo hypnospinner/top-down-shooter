@@ -19,4 +19,6 @@ MonoBehaviour:
   fireRate: 0.2
   reloadingTime: 1.7
   clipSize: 20
+  clip: 14
   startAmmo: 120
+  ammo: 120

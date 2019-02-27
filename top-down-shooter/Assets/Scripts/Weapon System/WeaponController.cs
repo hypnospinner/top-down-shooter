@@ -2,10 +2,16 @@
 
 class WeaponController : MonoBehaviour
 {
-    private PlayerInputController _inputController;
-    private GameObject[] _weapons;
-    private int _activeWeaponIndex;
-    private int _weaponCount;
+    #region Fields 
+
+    private PlayerInputController _inputController;     // reference to input controller
+    private GameObject[] _weapons;                      // massive for stored weapon gameObjects
+    private int _activeWeaponIndex;                     // index of current active weapon
+    private int _weaponCount;                           // amount of weapons currently
+
+    #endregion
+    
+    #region Behaviour
 
     private void Awake()
     {
@@ -103,5 +109,7 @@ class WeaponController : MonoBehaviour
 
         _activeWeaponIndex = newIndex;
     }
+    
+    #endregion
 }
 

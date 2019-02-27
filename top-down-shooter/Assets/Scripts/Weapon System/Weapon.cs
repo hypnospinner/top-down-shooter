@@ -6,16 +6,17 @@ public abstract class Weapon : MonoBehaviour
 {
     #region Fields 
 
-    [SerializeField] protected Transform Muzzle;
-    [SerializeField] protected WeaponData _weaponData;
+    [SerializeField] protected Transform Muzzle;            // place where projectiles are instantiated
+    [SerializeField] protected WeaponData _weaponData;      // stores state and parameters of weapon
+                                                            
+    protected delegate bool InputHandler();                 // delegate for handling events
+    protected InputHandler FireInput;                       // logical equation for deciding wether we should fire or not
+    protected InputHandler ReloadInput;                     // logical equation for deciding wether we should reload or not
+                                                            
+    protected PlayerInputController _inputController;       // input handler reference
+    protected bool _isReady;                                // state of the weapon
 
-    protected delegate bool InputHandler();
-    protected InputHandler FireInput;
-    protected InputHandler ReloadInput;
-    
-    protected PlayerInputController _inputController;
-    protected bool _isReady;
-
+    // properties
     public virtual WeaponData WeaponData
     {
         get => _weaponData;
@@ -61,23 +62,22 @@ public class WeaponData : ScriptableObject
     [SerializeField] protected float fireRate;                      // time span between shots
     [SerializeField] protected float reloadingTime;                 // time for reloading
     [SerializeField] protected int clipSize;                        // size of clip
+    [SerializeField] protected int clip;                            // current amount of projectiles in clip
     [SerializeField] protected int startAmmo;                       // on the start it can't have more than these amount of ammo
-
-    // state fields
-    protected int _ammo;     // current amount of total bullets                                          
-    protected int _clip;     // current amount of projectiles in clip
+    [SerializeField] protected int ammo;                            // current amount of total bullets                                          
 
     // properties
     public int Ammo
     {
-        get => _ammo;
-        set => _ammo = value >= 0 ? value : 0;
+        get => ammo;
+        set => ammo = value >= 0 ? value : 0;
     }
     public int Clip
     {
-        get => _clip;
-        set => _clip = value >= 0 ? value : 0;
+        get => clip;
+        set => clip = value >= 0 ? value : 0;
     }
+
     public float FireRate { get => fireRate; }
     public float ReloadingTime { get => reloadingTime; }
     public GameObject WeaponPrefab { get => weaponPrefab; }
@@ -85,15 +85,18 @@ public class WeaponData : ScriptableObject
     public int ClipSize { get => clipSize; }
     public int StartAmmo { get => startAmmo; }
 
+    // for loading data for new weapon data object
     public void SetWeaponData(WeaponData weaponData)
     {
-        fireRate = weaponData.fireRate;
-        reloadingTime = weaponData.reloadingTime;
-        clipSize = weaponData.clipSize;
-        startAmmo = weaponData.startAmmo;
+        weaponPrefab = weaponData.WeaponPrefab;
+        projectilePrefab = weaponData.ProjectilePrefab;
+        fireRate = weaponData.FireRate;
+        reloadingTime = weaponData.ReloadingTime;
+        clipSize = weaponData.ClipSize;
+        startAmmo = weaponData.StartAmmo;
 
-        _ammo = weaponData.Ammo;
-        _clip = weaponData.Clip;
+        ammo = weaponData.Ammo;
+        clip = weaponData.Clip;
     }
 }
 

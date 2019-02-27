@@ -3,6 +3,8 @@ using UnityEngine;
 
 class Pistol : Weapon
 {
+    #region Behavior
+
     protected override void Awake()
     {
         base.Awake();
@@ -15,7 +17,7 @@ class Pistol : Weapon
 
         FireInput =
             () => _inputController.LeftMouseButton == ButtonState.Down &&
-            // _weaponData.Clip > 0 && 
+            _weaponData.Clip > 0 && 
             _isReady;
     }
 
@@ -48,6 +50,10 @@ class Pistol : Weapon
             _weaponData.Clip = _weaponData.Ammo;
             _weaponData.Ammo = 0;
         }
+
+        _isReady = true;
     }
+
+    #endregion
 }
 

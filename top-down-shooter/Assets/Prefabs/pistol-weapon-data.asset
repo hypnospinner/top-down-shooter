@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: pistol-weapon-data
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
-  weaponPrefab: {fileID: 9101865884731668966, guid: b63bb0b3c810222499522469c49e001e,
-    type: 3}
-  projectilePrefab: {fileID: 8735313740739425132, guid: decfdf5fbd0123b4c992f3b225625331,
-    type: 3}
-  fireRate: 0.5
-  reloadingTime: 1.2
-  clipSize: 6
-  startAmmo: 36
+  weaponPrefab: {fileID: 0}
+  projectilePrefab: {fileID: 0}
+  fireRate: 0
+  reloadingTime: 0
+  clipSize: 0
+  clip: 0
+  startAmmo: 0
+  ammo: 0

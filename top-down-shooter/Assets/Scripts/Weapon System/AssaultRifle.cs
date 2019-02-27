@@ -3,6 +3,8 @@ using UnityEngine;
 
 class AssaultRifle : Weapon
 {
+    #region Behaviour
+
     protected override void Awake()
     {
         base.Awake();
@@ -14,8 +16,10 @@ class AssaultRifle : Weapon
             _isReady;
 
         FireInput =
-            () => _isReady ? (_inputController.LeftMouseButton == ButtonState.Down
-            || _inputController.LeftMouseButton == ButtonState.Hold) : false;
+            () => (_inputController.LeftMouseButton == ButtonState.Down || 
+            _inputController.LeftMouseButton == ButtonState.Hold) && 
+            _weaponData.Clip > 0 && 
+            _isReady;
     }
 
     protected override IEnumerator Fire()
@@ -47,7 +51,11 @@ class AssaultRifle : Weapon
             _weaponData.Clip = _weaponData.Ammo;
             _weaponData.Ammo = 0;
         }
+
+        _isReady = true;
     }
+
+    #endregion
 }
 
 
