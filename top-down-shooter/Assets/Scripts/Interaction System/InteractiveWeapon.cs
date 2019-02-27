@@ -2,8 +2,14 @@
 
 class InteractiveWeapon : InteractiveObject
 {
-    [SerializeField] private WeaponData weaponDataPrefab;
-    public WeaponData _weaponData;
+    #region Fields 
+
+    [SerializeField] private WeaponData weaponDataPrefab;   // stores prefab for weapon
+    private  WeaponData _weaponData;                        // stores actual value stored in 
+    
+    #endregion
+    
+    #region Behaviour    
 
     private void Awake()
     {
@@ -22,4 +28,6 @@ class InteractiveWeapon : InteractiveObject
         if (_weaponData == null)
             Destroy();
     }
+    
+    #endregion
 }

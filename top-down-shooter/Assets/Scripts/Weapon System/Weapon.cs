@@ -6,16 +6,17 @@ public abstract class Weapon : MonoBehaviour
 {
     #region Fields 
 
-    [SerializeField] protected Transform Muzzle;
-    [SerializeField] protected WeaponData _weaponData;
+    [SerializeField] protected Transform Muzzle;            // place where projectiles are instantiated
+    [SerializeField] protected WeaponData _weaponData;      // stores state and parameters of weapon
+                                                            
+    protected delegate bool InputHandler();                 // delegate for handling events
+    protected InputHandler FireInput;                       // logical equation for deciding wether we should fire or not
+    protected InputHandler ReloadInput;                     // logical equation for deciding wether we should reload or not
+                                                            
+    protected PlayerInputController _inputController;       // input handler reference
+    protected bool _isReady;                                // state of the weapon
 
-    protected delegate bool InputHandler();
-    protected InputHandler FireInput;
-    protected InputHandler ReloadInput;
-    
-    protected PlayerInputController _inputController;
-    protected bool _isReady;
-
+    // properties
     public virtual WeaponData WeaponData
     {
         get => _weaponData;
@@ -76,6 +77,7 @@ public class WeaponData : ScriptableObject
         get => clip;
         set => clip = value >= 0 ? value : 0;
     }
+
     public float FireRate { get => fireRate; }
     public float ReloadingTime { get => reloadingTime; }
     public GameObject WeaponPrefab { get => weaponPrefab; }
@@ -83,6 +85,7 @@ public class WeaponData : ScriptableObject
     public int ClipSize { get => clipSize; }
     public int StartAmmo { get => startAmmo; }
 
+    // for loading data for new weapon data object
     public void SetWeaponData(WeaponData weaponData)
     {
         weaponPrefab = weaponData.WeaponPrefab;

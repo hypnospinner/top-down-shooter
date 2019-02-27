@@ -3,6 +3,8 @@ using UnityEngine;
 
 class Pistol : Weapon
 {
+    #region Behavior
+
     protected override void Awake()
     {
         base.Awake();
@@ -51,5 +53,7 @@ class Pistol : Weapon
 
         _isReady = true;
     }
+
+    #endregion
 }
 

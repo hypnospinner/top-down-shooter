@@ -3,6 +3,8 @@ using UnityEngine;
 
 class AssaultRifle : Weapon
 {
+    #region Behaviour
+
     protected override void Awake()
     {
         base.Awake();
@@ -52,6 +54,8 @@ class AssaultRifle : Weapon
 
         _isReady = true;
     }
+
+    #endregion
 }
 
 
