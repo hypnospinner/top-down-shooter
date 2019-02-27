@@ -5,7 +5,7 @@ class InteractiveWeapon : InteractiveObject
     #region Fields 
 
     [SerializeField] private WeaponData weaponDataPrefab;   // stores prefab for weapon
-    private  WeaponData _weaponData;                        // stores actual value stored in 
+    private WeaponData _weaponData;                         // stores actual value stored in 
     
     #endregion
     

@@ -20,7 +20,7 @@ public abstract class Weapon : MonoBehaviour
     public virtual WeaponData WeaponData
     {
         get => _weaponData;
-        set => _weaponData = _weaponData == null ? value : _weaponData;
+        set => _weaponData = value;
     }
 
     #endregion
@@ -98,5 +98,13 @@ public class WeaponData : ScriptableObject
         ammo = weaponData.Ammo;
         clip = weaponData.Clip;
     }
+
+    public override string ToString()
+    {
+        return "Weapon Prefab " + weaponPrefab +
+            "\n Projectile Prefab " + projectilePrefab +
+            "\n Clip " + clip +
+            "\n Ammo " + ammo;
+            }
 }
 
