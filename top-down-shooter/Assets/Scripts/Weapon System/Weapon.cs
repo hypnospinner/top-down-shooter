@@ -61,22 +61,20 @@ public class WeaponData : ScriptableObject
     [SerializeField] protected float fireRate;                      // time span between shots
     [SerializeField] protected float reloadingTime;                 // time for reloading
     [SerializeField] protected int clipSize;                        // size of clip
+    [SerializeField] protected int clip;                            // current amount of projectiles in clip
     [SerializeField] protected int startAmmo;                       // on the start it can't have more than these amount of ammo
-
-    // state fields
-    protected int _ammo;     // current amount of total bullets                                          
-    protected int _clip;     // current amount of projectiles in clip
+    [SerializeField] protected int ammo;                            // current amount of total bullets                                          
 
     // properties
     public int Ammo
     {
-        get => _ammo;
-        set => _ammo = value >= 0 ? value : 0;
+        get => ammo;
+        set => ammo = value >= 0 ? value : 0;
     }
     public int Clip
     {
-        get => _clip;
-        set => _clip = value >= 0 ? value : 0;
+        get => clip;
+        set => clip = value >= 0 ? value : 0;
     }
     public float FireRate { get => fireRate; }
     public float ReloadingTime { get => reloadingTime; }
@@ -92,8 +90,8 @@ public class WeaponData : ScriptableObject
         clipSize = weaponData.clipSize;
         startAmmo = weaponData.startAmmo;
 
-        _ammo = weaponData.Ammo;
-        _clip = weaponData.Clip;
+        ammo = weaponData.Ammo;
+        clip = weaponData.Clip;
     }
 }
 
