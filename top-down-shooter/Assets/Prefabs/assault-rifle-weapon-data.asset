@@ -18,7 +18,7 @@ MonoBehaviour:
     type: 3}
   fireRate: 0.2
   reloadingTime: 1.7
-  clipSize: 20
-  clip: 14
-  startAmmo: 120
-  ammo: 120
+  clipSize: 30
+  clip: 30
+  startAmmo: 150
+  ammo: 150
