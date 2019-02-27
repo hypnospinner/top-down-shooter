@@ -84,10 +84,10 @@ class WeaponController : MonoBehaviour
                 Destroy(_weapons[_activeWeaponIndex]);
 
                 _weapons[_activeWeaponIndex] = 
-                    Instantiate(Instantiate(weaponData.WeaponPrefab,
+                    Instantiate(weaponData.WeaponPrefab,
                     transform.position,
                     transform.rotation,
-                    transform)) as GameObject;
+                    transform) as GameObject;
 
                 var activeWeaponData = _weapons[_activeWeaponIndex].GetComponent<Weapon>().WeaponData = 
                     ScriptableObject.CreateInstance<WeaponData>();
