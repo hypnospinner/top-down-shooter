@@ -75,7 +75,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b516e0cd23410054fa93c770756aaf99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weaponData: {fileID: 11400000, guid: b604f391bd238074ea91df8f1e545eba, type: 2}
+  weaponDataPrefab: {fileID: 11400000, guid: b604f391bd238074ea91df8f1e545eba, type: 2}
+  _weaponData: {fileID: 0}
 --- !u!1 &8363932112208723690
 GameObject:
   m_ObjectHideFlags: 0

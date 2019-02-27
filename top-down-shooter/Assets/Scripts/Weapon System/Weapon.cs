@@ -85,10 +85,12 @@ public class WeaponData : ScriptableObject
 
     public void SetWeaponData(WeaponData weaponData)
     {
-        fireRate = weaponData.fireRate;
-        reloadingTime = weaponData.reloadingTime;
-        clipSize = weaponData.clipSize;
-        startAmmo = weaponData.startAmmo;
+        weaponPrefab = weaponData.WeaponPrefab;
+        projectilePrefab = weaponData.ProjectilePrefab;
+        fireRate = weaponData.FireRate;
+        reloadingTime = weaponData.ReloadingTime;
+        clipSize = weaponData.ClipSize;
+        startAmmo = weaponData.StartAmmo;
 
         ammo = weaponData.Ammo;
         clip = weaponData.Clip;

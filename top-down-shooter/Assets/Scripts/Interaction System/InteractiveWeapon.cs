@@ -2,7 +2,17 @@
 
 class InteractiveWeapon : InteractiveObject
 {
-    [SerializeField] private WeaponData _weaponData;
+    [SerializeField] private WeaponData weaponDataPrefab;
+    public WeaponData _weaponData;
+
+    private void Awake()
+    {
+        if (weaponDataPrefab == null)
+            Debug.LogError("Weapon Data Prefab is null!!!");
+
+        _weaponData = ScriptableObject.CreateInstance<WeaponData>();
+        _weaponData.SetWeaponData(weaponDataPrefab);
+    }
 
     public override void Interact(GameObject interactor)
     {
