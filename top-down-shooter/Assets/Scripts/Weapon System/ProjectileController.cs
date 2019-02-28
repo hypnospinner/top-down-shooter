@@ -35,7 +35,7 @@ public class ProjectileController : MonoBehaviour
             AttackMask,
             QueryTriggerInteraction.Ignore))
         {
-
+            _damageSender.SendDamageTo(hit.transform.gameObject);
             Destroy(gameObject);
         }
         transform.position += transform.forward * _stepMoveDistance;
