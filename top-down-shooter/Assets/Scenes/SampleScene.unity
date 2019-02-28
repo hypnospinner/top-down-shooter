@@ -683,6 +683,7 @@ GameObject:
   - component: {fileID: 481580967}
   - component: {fileID: 481580963}
   - component: {fileID: 481580968}
+  - component: {fileID: 481580969}
   m_Layer: 10
   m_Name: player
   m_TagString: Untagged
@@ -768,10 +769,6 @@ MonoBehaviour:
   PointerLayerMask:
     serializedVersion: 2
     m_Bits: 512
-  _leftMouseButton: 0
-  _rightMouseButton: 0
-  _reloadingButton: 0
-  _mouseWheel: 0
 --- !u!135 &481580967
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -797,8 +794,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd4db5f1ecee4e742966e76e65174c26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovementSpeed: 3
-  RotationSpeed: 10
+--- !u!114 &481580969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 481580962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3c7acb8ce60e2c429df30e35c09d042, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _health: 0
+  _movementSpeed: 3
+  _rotationSpeed: 10
 --- !u!1 &534669902
 GameObject:
   m_ObjectHideFlags: 0

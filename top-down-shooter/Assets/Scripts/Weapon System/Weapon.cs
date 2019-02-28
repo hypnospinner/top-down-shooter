@@ -105,6 +105,6 @@ public class WeaponData : ScriptableObject
             "\n Projectile Prefab " + projectilePrefab +
             "\n Clip " + clip +
             "\n Ammo " + ammo;
-            }
+    }
 }
 
