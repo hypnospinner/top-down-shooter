@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(DamageSender))]
 public class ProjectileController : MonoBehaviour
 {
     #region Fields 
@@ -9,6 +10,7 @@ public class ProjectileController : MonoBehaviour
     [SerializeField] private LayerMask AttackMask;      // layer for hitbox colliders
 
     private float _stepMoveDistance;                    // precalculated distance of movement on 1 frame
+    private DamageSender _damageSender;                 // stores data about damage
 
     #endregion
 
@@ -16,6 +18,7 @@ public class ProjectileController : MonoBehaviour
 
     private void Awake()
     {
+        _damageSender = GetComponent<DamageSender>();
         _stepMoveDistance = ProjectileSpeed * Time.fixedDeltaTime;
         Destroy(gameObject, AttackDistance / ProjectileSpeed);
     }
@@ -24,15 +27,17 @@ public class ProjectileController : MonoBehaviour
     {
         RaycastHit hit;
 
-        if(Physics.Raycast(
-            transform.position, 
-            transform.forward, 
-            out hit, 
-            _stepMoveDistance, 
-            AttackMask, 
+        if (Physics.Raycast(
+            transform.position,
+            transform.forward,
+            out hit,
+            _stepMoveDistance,
+            AttackMask,
             QueryTriggerInteraction.Ignore))
+        {
+            _damageSender.SendDamageTo(hit.transform.gameObject);
             Destroy(gameObject);
-
+        }
         transform.position += transform.forward * _stepMoveDistance;
     }
 

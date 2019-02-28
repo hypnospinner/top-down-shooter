@@ -13,10 +13,10 @@ public sealed class PlayerInputController : MonoBehaviour
     private bool _isMoving;                                 // wether we made any input or not
     private Pointer _pointer;                               // storing data about place we point
     private bool _isInteracting;                            // wether player is attempting to interact with interactive object
-    [SerializeField] private ButtonState _leftMouseButton;                   // stands for left mouse button input
-    [SerializeField] private ButtonState _rightMouseButton;                  // stands for right mouse button input
-    [SerializeField] private ButtonState _reloadingButton;                   // stands for reloading button input
-    [SerializeField] private MouseWheelState _mouseWheel;                    // stands for mouse wheel input -1 - back, 0 - no move, 1 - forward
+    private ButtonState _leftMouseButton;                   // stands for left mouse button input
+    private ButtonState _rightMouseButton;                  // stands for right mouse button input
+    private ButtonState _reloadingButton;                   // stands for reloading button input
+    private MouseWheelState _mouseWheel;                    // stands for mouse wheel input -1 - back, 0 - no move, 1 - forward
 
     // properties (actually available input fields)
     public float ForwardInput                               // public readonly WS input

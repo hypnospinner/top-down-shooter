@@ -11,14 +11,9 @@ public class PlayerMovementController : MonoBehaviour
 {
     #region Fields
 
-    [Header("Player Stats")]
-
-        [SerializeField] private float MovementSpeed;               // movement speed of player
-        [SerializeField] private float RotationSpeed;               // speed of player rotation
-
-    // private fields
     private KinematicCharacterController _characterController;      // responsible for all movement calculations
     private PlayerInputController _playerInput;                     // responsible for input
+    private PlayerController _playerController;                     // stats of player
 
     #endregion
 
@@ -27,7 +22,16 @@ public class PlayerMovementController : MonoBehaviour
     private void Awake()
     {
         _characterController = GetComponent<KinematicCharacterController>();
+        if (_characterController == null)
+            Debug.Log("Kinematic Character Controller is not set!!!");
+
         _playerInput = GetComponent<PlayerInputController>();
+        if (_characterController == null)
+            Debug.Log("Player Input Controller is not set!!!");
+
+        _playerController = GetComponent<PlayerController>();
+        if (_characterController == null)
+            Debug.Log("Player Controller is not set!!!");
     }
 
     private void FixedUpdate()
@@ -36,7 +40,7 @@ public class PlayerMovementController : MonoBehaviour
         if (_playerInput.IsMoving)
             _characterController.MovePlayer(
                 new Vector2(_playerInput.ForwardInput, _playerInput.RightInput), 
-                MovementSpeed);
+                _playerController.MovementSpeed);
 
         // rotating player
         Vector3 lookDirection = _playerInput.PointerPosition - transform.position;
@@ -45,7 +49,7 @@ public class PlayerMovementController : MonoBehaviour
         transform.rotation = Quaternion.Slerp(
             transform.rotation,
             Quaternion.LookRotation(lookDirection, Vector3.up),
-            RotationSpeed * Time.fixedDeltaTime);
+            _playerController.RotationSpeed * Time.fixedDeltaTime);
     }
 
     #endregion
