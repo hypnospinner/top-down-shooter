@@ -18,6 +18,7 @@ public sealed class PlayerInputController : MonoBehaviour
     private ButtonState _reloadingButton;                   // stands for reloading button input
     private MouseWheelState _mouseWheel;                    // stands for mouse wheel input -1 - back, 0 - no move, 1 - forward
     private bool _isContextInteracting;                     // wether player uses context interaction possiblity
+    private ButtonState _abilityButton;                      // stands for SPACE button state
 
     // properties (actually available input fields)
     public float ForwardInput                               // public readonly WS input
@@ -42,7 +43,8 @@ public sealed class PlayerInputController : MonoBehaviour
         { get => _mouseWheel; }
     public bool IsContextInteracting                        // public readonly for Q
         { get => _isContextInteracting; }
-
+    public ButtonState AbilityInput                         // public readonly for SPACE
+        { get => _abilityButton; }
 
     #endregion
 
@@ -132,6 +134,12 @@ public sealed class PlayerInputController : MonoBehaviour
             Input.GetAxis("Mouse ScrollWheel") > 0f ?   MouseWheelState.ScrollForward :
             Input.GetAxis("Mouse ScrollWheel") < 0f ?   MouseWheelState.ScrollBackward :
                                                         MouseWheelState.Up;
+
+        _abilityButton =
+            Input.GetKeyDown(KeyCode.Space)         ?   ButtonState.Down :
+            Input.GetKey(KeyCode.Space)             ?   ButtonState.Hold :
+            Input.GetKeyUp(KeyCode.Space)           ?   ButtonState.Release :
+                                                        ButtonState.Up;
     }
 
     #endregion
