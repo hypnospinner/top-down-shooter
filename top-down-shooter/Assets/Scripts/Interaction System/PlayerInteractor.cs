@@ -9,10 +9,10 @@ public class PlayerInteractor : MonoBehaviour
 
     [SerializeField] private float InteractionRadius;
 
-    private InteractiveObject.InteractiveObjectStateHandler _removeInteractive;
+    private Interactive.InteractiveObjectStateHandler _removeInteractive;
     private SphereCollider _interactionZone;
-    private List<InteractiveObject> _interactiveObjects;
-    private InteractiveObject _currentInteractiveObject;
+    private List<Interactive> _interactiveObjects;
+    private Interactive _currentInteractiveObject;
     private PlayerInputController _inputController;
 
     #endregion
@@ -21,7 +21,7 @@ public class PlayerInteractor : MonoBehaviour
 
     private void Awake()
     {
-        _interactiveObjects = new List<InteractiveObject>();
+        _interactiveObjects = new List<Interactive>();
 
         _inputController = transform.root.GetComponent<PlayerInputController>();
         if (_inputController == null)
@@ -47,11 +47,11 @@ public class PlayerInteractor : MonoBehaviour
             _currentInteractiveObject?.Interact(gameObject.transform.root.gameObject);
     }
 
-    private InteractiveObject FindCurrentInteractive()
+    private Interactive FindCurrentInteractive()
     {
         if(_interactiveObjects.Count > 0)
         {   
-            InteractiveObject current = _interactiveObjects[0];
+            Interactive current = _interactiveObjects[0];
             float sqrDistance = (transform.position - current.transform.position).sqrMagnitude;
 
             foreach (var interactiveObject in _interactiveObjects)
@@ -75,7 +75,7 @@ public class PlayerInteractor : MonoBehaviour
     {
         if (other.CompareTag("interactive"))
         {
-            InteractiveObject interactive = other.GetComponent<InteractiveObject>();
+            Interactive interactive = other.GetComponent<Interactive>();
 
             if (interactive != null)
             {
@@ -89,7 +89,7 @@ public class PlayerInteractor : MonoBehaviour
     {
         if (other.CompareTag("interactive"))
         {
-            InteractiveObject interactive = other.GetComponent<InteractiveObject>();
+            Interactive interactive = other.GetComponent<Interactive>();
 
             if (interactive != null)
             {
@@ -101,7 +101,7 @@ public class PlayerInteractor : MonoBehaviour
         }
     }
 
-    public void InteractedWithDestruction(InteractiveObject destructedInteractive)
+    public void InteractedWithDestruction(Interactive destructedInteractive)
     
 {
         _interactiveObjects.Remove(destructedInteractive);
