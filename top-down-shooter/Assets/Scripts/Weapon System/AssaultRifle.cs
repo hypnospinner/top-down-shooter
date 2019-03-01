@@ -10,7 +10,7 @@ class AssaultRifle : Weapon
         base.Awake();
 
         ReloadInput =
-            () => _inputController.RealoadingButton == ButtonState.Down &&
+            () => _inputController.ReloadingButton == ButtonState.Down &&
             _weaponData.Clip < _weaponData.ClipSize &&
             _weaponData.Ammo > 0 &&
             _isReady;

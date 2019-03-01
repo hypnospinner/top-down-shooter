@@ -5,6 +5,8 @@ public sealed class PlayerInputController : MonoBehaviour
 {
     #region Fields
 
+    public bool Blocked;                                    // defines if we block getting input or not
+
     [SerializeField] private Camera PlayerCamera;           // reference to camera for finding point in world that mouse points
     [SerializeField] private LayerMask PointerLayerMask;    // layer mask for pointing
     
@@ -18,31 +20,67 @@ public sealed class PlayerInputController : MonoBehaviour
     private ButtonState _reloadingButton;                   // stands for reloading button input
     private MouseWheelState _mouseWheel;                    // stands for mouse wheel input -1 - back, 0 - no move, 1 - forward
     private bool _isContextInteracting;                     // wether player uses context interaction possiblity
+    private ButtonState _abilityButton;                      // stands for SPACE button state
 
     // properties (actually available input fields)
     public float ForwardInput                               // public readonly WS input
-        { get => _movementInput.y; }                        
+    {
+        get => _movementInput.y;
+        private set => _movementInput.y = value;
+    }                        
     public float RightInput                                 // public readonly AD input
-        { get => _movementInput.x; }                        
+    {
+        get => _movementInput.x;
+        private set => _movementInput.x = value;
+    }                        
     public bool IsMoving                                    // public readonly if player made an input
-        { get => _isMoving; }                                
+    {
+        get => _isMoving;
+        private set => _isMoving = value;
+    }                                
     public Vector3 PointerPosition                          // public readonly place we point in our space
-        { get => _pointer.HitPoint; }                       
+    {
+        get => _pointer.HitPoint;
+    }
     public GameObject PointerObject                         // public readonly gameobject we hit
-        { get => _pointer.HitGameObject; }
+    {
+        get => _pointer.HitGameObject;
+    }
     public bool IsInteracting                               // public readonly if player is trying to interact
-        { get => _isInteracting; }
+    {
+        get => _isInteracting;
+        private set => _isInteracting = value;
+    }
     public ButtonState LeftMouseButton                      // public readonly for LMB
-        { get => _leftMouseButton; }
+    {
+        get => _leftMouseButton;
+        private set => _leftMouseButton = value;
+    }
     public ButtonState RightMouseButton                     // public readonly for RMB
-        { get => _rightMouseButton; }
-    public ButtonState RealoadingButton                     // public readonly for realoding button (R)
-        { get => _reloadingButton; }
+    {
+        get => _rightMouseButton;
+        private set => _rightMouseButton = value;
+    }
+    public ButtonState ReloadingButton                     // public readonly for realoding button (R)
+    {
+        get => _reloadingButton;
+        private set => _reloadingButton = value;
+    }
     public MouseWheelState MouseWheel                       // public readonly for MMB
-        { get => _mouseWheel; }
+    {
+        get => _mouseWheel;
+        private set => _mouseWheel = value;
+    }
     public bool IsContextInteracting                        // public readonly for Q
-        { get => _isContextInteracting; }
-
+    {
+        get => _isContextInteracting;
+        private set => _isContextInteracting = value;
+    }
+    public ButtonState AbilityButton                        // public readonly for SPACE
+    {
+        get => _abilityButton;
+        private set => _abilityButton = value;
+    }
 
     #endregion
 
@@ -70,6 +108,23 @@ public sealed class PlayerInputController : MonoBehaviour
         GetInterctionInput();
 
         GetWeaponInput();
+
+        if (!Blocked)
+        {
+        }
+        else
+        {
+            ForwardInput = 0f;
+            RightInput = 0f;
+            IsMoving = false;
+            IsInteracting = false;
+            LeftMouseButton = ButtonState.Up;
+            RightMouseButton = ButtonState.Up;
+            ReloadingButton = ButtonState.Up;
+            MouseWheel = MouseWheelState.Up;
+            IsContextInteracting = false;
+            AbilityButton = ButtonState.Up;
+        }
     }
 
     private void GetMovementInput()
@@ -132,6 +187,12 @@ public sealed class PlayerInputController : MonoBehaviour
             Input.GetAxis("Mouse ScrollWheel") > 0f ?   MouseWheelState.ScrollForward :
             Input.GetAxis("Mouse ScrollWheel") < 0f ?   MouseWheelState.ScrollBackward :
                                                         MouseWheelState.Up;
+
+        _abilityButton =
+            Input.GetKeyDown(KeyCode.Space)         ?   ButtonState.Down :
+            Input.GetKey(KeyCode.Space)             ?   ButtonState.Hold :
+            Input.GetKeyUp(KeyCode.Space)           ?   ButtonState.Release :
+                                                        ButtonState.Up;
     }
 
     #endregion
@@ -144,8 +205,8 @@ public struct Pointer
 
     public Pointer(Vector3 hitPoint, GameObject hitGameObject)
     {
-        this.HitPoint = hitPoint;
-        this.HitGameObject = hitGameObject;
+        HitPoint = hitPoint;
+        HitGameObject = hitGameObject;
     }
 }
 

@@ -2,6 +2,8 @@
 using System.Collections;
 using UnityEngine;
 
+public delegate bool InputHandler();                        // delegate for handling events
+
 public abstract class Weapon : MonoBehaviour
 {
     #region Fields 
@@ -9,7 +11,6 @@ public abstract class Weapon : MonoBehaviour
     [SerializeField] protected Transform Muzzle;            // place where projectiles are instantiated
     [SerializeField] protected WeaponData _weaponData;      // stores state and parameters of weapon
                                                             
-    protected delegate bool InputHandler();                 // delegate for handling events
     protected InputHandler FireInput;                       // logical equation for deciding wether we should fire or not
     protected InputHandler ReloadInput;                     // logical equation for deciding wether we should reload or not
                                                             
