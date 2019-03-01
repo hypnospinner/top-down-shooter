@@ -17,6 +17,7 @@ public sealed class PlayerInputController : MonoBehaviour
     private ButtonState _rightMouseButton;                  // stands for right mouse button input
     private ButtonState _reloadingButton;                   // stands for reloading button input
     private MouseWheelState _mouseWheel;                    // stands for mouse wheel input -1 - back, 0 - no move, 1 - forward
+    private bool _isContextInteracting;                     // wether player uses context interaction possiblity
 
     // properties (actually available input fields)
     public float ForwardInput                               // public readonly WS input
@@ -39,6 +40,8 @@ public sealed class PlayerInputController : MonoBehaviour
         { get => _reloadingButton; }
     public MouseWheelState MouseWheel                       // public readonly for MMB
         { get => _mouseWheel; }
+    public bool IsContextInteracting                        // public readonly for Q
+        { get => _isContextInteracting; }
 
 
     #endregion
@@ -69,7 +72,6 @@ public sealed class PlayerInputController : MonoBehaviour
         GetWeaponInput();
     }
 
-
     private void GetMovementInput()
     {
         _movementInput.x = Input.GetAxisRaw("Horizontal");
@@ -99,6 +101,7 @@ public sealed class PlayerInputController : MonoBehaviour
     {
         // TODO: Use Input.GetButtonDown (add new Button)
         _isInteracting = Input.GetKeyDown(KeyCode.E) ? true : false;
+        _isContextInteracting = Input.GetKeyDown(KeyCode.Q) ? true : false;
     }
 
     private void GetWeaponInput()
