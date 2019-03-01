@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-class InteractiveWeapon : InteractiveObject
+class InteractiveWeapon : Interactive
 {
     #region Fields 
 
@@ -26,7 +26,7 @@ class InteractiveWeapon : InteractiveObject
             interactor.GetComponentInChildren<WeaponController>().PickWeapon(_weaponData);
 
         if (_weaponData == null)
-            Destroy();
+            DestroyInteractive();
     }
     
     #endregion

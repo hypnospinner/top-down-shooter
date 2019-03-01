@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-class InteractiveAIDKit : InteractiveObject
+class InteractiveAIDKit : Interactive
 {
     #region Fields
 
@@ -15,7 +15,7 @@ class InteractiveAIDKit : InteractiveObject
         IDamagable damagable = interactor.GetComponent<IDamagable>();
 
         if (damagable != null ? damagable.ReceiveAID(AIDType) : false)
-            Destroy();
+            DestroyInteractive();
     }
 
     #endregion

@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 
-public class InteractiveObject : MonoBehaviour
+public class Interactive : MonoBehaviour
 {
-    public delegate void InteractiveObjectStateHandler(InteractiveObject interactiveObject);
+    public delegate void InteractiveObjectStateHandler(Interactive interactiveObject);
     public event InteractiveObjectStateHandler OnDestroy;
 
     public virtual void Interact(GameObject interactor) { }
 
-    protected void Destroy()
+    protected void DestroyInteractive()
     {
         OnDestroy?.Invoke(this);
         Destroy(gameObject);
