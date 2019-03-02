@@ -87,8 +87,6 @@ public class KinematicCharacterController: MonoBehaviour
     {
         direction.Normalize();
 
-        Debug.DrawRay(transform.position, direction, Color.yellow, 10f);
-
         transform.position += 
             (direction.x * Vector3.forward + direction.y * Vector3.right) 
             * velocity * Time.fixedDeltaTime;
