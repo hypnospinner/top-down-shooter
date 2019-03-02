@@ -3,14 +3,20 @@ using UnityEngine;
 
 public class HyperDashAbility : Ability
 {
+    #region Fields
+
     [SerializeField][Range(0f, .5f)] private float DashTime;
     [SerializeField][Range(0f, 5f)] private float DashDistance;
 
     private PlayerInputController _inputController;
     private KinematicCharacterController _characterController;
-    public Transform _playerTransform;
+    public PlayerMovementController _movementController;
 
     private float speed;
+
+    #endregion
+
+    #region Behaviour
 
     private void Awake()
     {
@@ -27,7 +33,9 @@ public class HyperDashAbility : Ability
         if (_characterController == null)
             Debug.Log("Ability failed to get Kinematic Character Controller");
 
-        _playerTransform = playerGameObject.transform;
+        _movementController = playerGameObject.GetComponent<PlayerMovementController>();
+        if (_movementController == null)
+            Debug.Log("Ability failed to get Player Movement Controller");
 
         speed = DashDistance / DashTime;
     }
@@ -42,17 +50,11 @@ public class HyperDashAbility : Ability
         _inputController.Blocked = true;
         float timer = DashTime;
 
+        Vector3 direction = _inputController.PointerPosition - _inputController.transform.position;
+
         while (timer > 0f)
         {
-            float angle;
-            Vector3 rotationDir;
-            _playerTransform.rotation.ToAngleAxis(out angle, out rotationDir);
-
-            Debug.Log(angle);
-
-            Vector3 direction = Quaternion.Euler(0f, angle, 0f) * _playerTransform.forward;
-
-            _characterController.MovePlayer(direction, speed);
+            _characterController.MovePlayer(new Vector2(direction.z, direction.x), speed);
             timer -= Time.deltaTime;
             yield return null;
         }
@@ -61,4 +63,6 @@ public class HyperDashAbility : Ability
 
         yield break;
     }
+
+    #endregion
 }

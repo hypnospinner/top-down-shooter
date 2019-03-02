@@ -1,10 +1,5 @@
 ﻿using UnityEngine;
 
-/*  
- *  TODO: Incapuslate all fields that refere to state of player character and could be changed over time
- *      - MovementSpeed
- *      - PlayerMass
- */
 [RequireComponent(typeof(SphereCollider))]
 [RequireComponent(typeof(CapsuleCollider))]
 public class KinematicCharacterController: MonoBehaviour
@@ -91,6 +86,8 @@ public class KinematicCharacterController: MonoBehaviour
     public void MovePlayer(Vector2 direction, float velocity)
     {
         direction.Normalize();
+
+        Debug.DrawRay(transform.position, direction, Color.yellow, 10f);
 
         transform.position += 
             (direction.x * Vector3.forward + direction.y * Vector3.right) 

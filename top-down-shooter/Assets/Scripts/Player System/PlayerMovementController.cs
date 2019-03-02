@@ -14,6 +14,9 @@ public class PlayerMovementController : MonoBehaviour
     private KinematicCharacterController _characterController;      // responsible for all movement calculations
     private PlayerInputController _playerInput;                     // responsible for input
     private PlayerController _playerController;                     // stats of player
+    private Vector3 _lookDirection;
+
+    public Vector3 LookDirection { get => _lookDirection; }
 
     #endregion
 
@@ -43,12 +46,12 @@ public class PlayerMovementController : MonoBehaviour
                 _playerController.MovementSpeed);
 
         // rotating player
-        Vector3 lookDirection = _playerInput.PointerPosition - transform.position;
-        lookDirection.y = 0;
+        _lookDirection = _playerInput.PointerPosition - transform.position;
+        _lookDirection.y = 0;
 
         transform.rotation = Quaternion.Slerp(
             transform.rotation,
-            Quaternion.LookRotation(lookDirection, Vector3.up),
+            Quaternion.LookRotation(_lookDirection, Vector3.up),
             _playerController.RotationSpeed * Time.fixedDeltaTime);
     }
 

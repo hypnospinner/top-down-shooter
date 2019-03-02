@@ -16,7 +16,7 @@ public class AbilityController : MonoBehaviour
         if(_abilityGameObject == null)
         {
             _abilityGameObject = Instantiate(newAbility, transform, true);
-
+            _abilityGameObject.transform.localPosition = Vector3.zero;
             Ability ability = _abilityGameObject.GetComponent<Ability>();
 
             if(ability != null)
