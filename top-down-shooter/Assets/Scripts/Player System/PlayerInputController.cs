@@ -20,7 +20,7 @@ public sealed class PlayerInputController : MonoBehaviour
     private ButtonState _reloadingButton;                   // stands for reloading button input
     private MouseWheelState _mouseWheel;                    // stands for mouse wheel input -1 - back, 0 - no move, 1 - forward
     private bool _isContextInteracting;                     // wether player uses context interaction possiblity
-    private ButtonState _abilityButton;                      // stands for SPACE button state
+    private ButtonState _abilityButton;                     // stands for SPACE button state
 
     // properties (actually available input fields)
     public float ForwardInput                               // public readonly WS input
@@ -61,7 +61,7 @@ public sealed class PlayerInputController : MonoBehaviour
         get => _rightMouseButton;
         private set => _rightMouseButton = value;
     }
-    public ButtonState ReloadingButton                     // public readonly for realoding button (R)
+    public ButtonState ReloadingButton                      // public readonly for realoding button (R)
     {
         get => _reloadingButton;
         private set => _reloadingButton = value;
@@ -154,9 +154,8 @@ public sealed class PlayerInputController : MonoBehaviour
 
     private void GetInterctionInput()
     {
-        // TODO: Use Input.GetButtonDown (add new Button)
-        _isInteracting = Input.GetKeyDown(KeyCode.E) ? true : false;
-        _isContextInteracting = Input.GetKeyDown(KeyCode.Q) ? true : false;
+        _isInteracting = Input.GetButtonDown("Interact") ? true : false;
+        _isContextInteracting = Input.GetButtonDown("ContextInteract") ? true : false;
     }
 
     private void GetWeaponInput()
@@ -175,9 +174,9 @@ public sealed class PlayerInputController : MonoBehaviour
         
         // TODO: get rid of KeyCode...
         _reloadingButton =
-            Input.GetKeyDown(KeyCode.R)             ?   ButtonState.Down :
-            Input.GetKey(KeyCode.R)                 ?   ButtonState.Hold :
-            Input.GetKeyUp(KeyCode.R)               ?   ButtonState.Release :
+            Input.GetButtonDown("Reload")           ?   ButtonState.Down :
+            Input.GetButton("Reload")               ?   ButtonState.Hold :
+            Input.GetButtonUp("Reload")             ?   ButtonState.Release :
                                                         ButtonState.Up;
 
         _mouseWheel =
@@ -189,9 +188,9 @@ public sealed class PlayerInputController : MonoBehaviour
                                                         MouseWheelState.Up;
 
         _abilityButton =
-            Input.GetKeyDown(KeyCode.Space)         ?   ButtonState.Down :
-            Input.GetKey(KeyCode.Space)             ?   ButtonState.Hold :
-            Input.GetKeyUp(KeyCode.Space)           ?   ButtonState.Release :
+            Input.GetButtonDown("Ability")          ?   ButtonState.Down :
+            Input.GetButton("Ability")              ?   ButtonState.Hold :
+            Input.GetButtonUp("Ability")            ?   ButtonState.Release :
                                                         ButtonState.Up;
     }
 
