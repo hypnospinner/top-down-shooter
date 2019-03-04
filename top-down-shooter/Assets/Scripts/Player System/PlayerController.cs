@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour, IDamagable
 {
@@ -10,6 +11,7 @@ public class PlayerController : MonoBehaviour, IDamagable
     [SerializeField] private float MaxHealth;
     [SerializeField] private float _movementSpeed;
     [SerializeField] private float _rotationSpeed;
+    [SerializeField] private Image HealthBar;
 
     private float _health;
     private PlayerInputController _inputController;
@@ -54,6 +56,11 @@ public class PlayerController : MonoBehaviour, IDamagable
                 _AIDStack.Pop();
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.K))
+            _health -= 2;
+
+        HealthBar.fillAmount = _health / MaxHealth;
     }
 
     public void ReceiveDamage(DamageData damageData)
