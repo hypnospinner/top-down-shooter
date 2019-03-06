@@ -47,6 +47,7 @@ public class HyperDashAbility : Ability
 
     private IEnumerator DashForward()
     {
+        // TODO: prevent collider from going throw objects
         _inputController.Blocked = true;
         float timer = DashTime;
 
@@ -54,7 +55,7 @@ public class HyperDashAbility : Ability
 
         while (timer > 0f)
         {
-            _characterController.MovePlayer(new Vector2(direction.z, direction.x), speed);
+            _characterController.MovePlayer(direction, speed);
             timer -= Time.deltaTime;
             yield return null;
         }
