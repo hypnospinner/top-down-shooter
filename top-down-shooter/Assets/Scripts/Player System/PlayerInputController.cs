@@ -23,7 +23,7 @@ public sealed class PlayerInputController : MonoBehaviour
     private ButtonState _abilityButton;                     // stands for SPACE button state
 
     // properties (actually available input fields)
-    public float ForwardInput                               // public readonly WS input
+    public float UpInput                               // public readonly WS input
     {
         get => _movementInput.y;
         private set => _movementInput.y = value;
@@ -114,7 +114,7 @@ public sealed class PlayerInputController : MonoBehaviour
         }
         else
         {
-            ForwardInput = 0f;
+            UpInput = 0f;
             RightInput = 0f;
             IsMoving = false;
             IsInteracting = false;
