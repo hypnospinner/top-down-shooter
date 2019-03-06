@@ -42,8 +42,11 @@ public class PlayerMovementController : MonoBehaviour
         // moving player
         if (_playerInput.IsMoving)
             _characterController.MovePlayer(
-                new Vector2(_playerInput.ForwardInput, _playerInput.RightInput), 
+                new Vector3(_playerInput.RightInput, 0f, _playerInput.UpInput), 
                 _playerController.MovementSpeed);
+
+        _characterController.StickPlayerToTheGround();
+        _characterController.ResolveCollision();
 
         // rotating player
         _lookDirection = _playerInput.PointerPosition - transform.position;

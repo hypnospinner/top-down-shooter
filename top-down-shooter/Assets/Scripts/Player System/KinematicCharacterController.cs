@@ -1,18 +1,11 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(SphereCollider))]
-[RequireComponent(typeof(CapsuleCollider))]
 public class KinematicCharacterController: MonoBehaviour
 {
     #region Fields
 
     // pubcic fields
-
-    [Header("Player Collider Settings")]
-
-        [SerializeField] private float PlayerHeight;                        // player capsule collider height
-        [SerializeField] private float PlayerRadius;                        // player capsule collider radius
-        [SerializeField] private float GroundingSphereRadius;               // sphere that is used for checking grounding
 
     [Header("Collision Detection Settings")]
 
@@ -20,6 +13,7 @@ public class KinematicCharacterController: MonoBehaviour
 
     [Header("Grounding Settings")]
 
+        [SerializeField] private float GroundingSphereRadius;               // sphere that is used for checking grounding
         [SerializeField] private LayerMask GroundLayerMask;                 // list of layers with everything considered to be ground
         [SerializeField] [Range(0f, 90f)] private float MaxSlopeAngle;      // max slope angle player can stand
         [SerializeField] [Range(0f, 1f)] private float MaxStepHeight;       // simple way to prevent climbing steps
@@ -35,10 +29,8 @@ public class KinematicCharacterController: MonoBehaviour
 
     // private fields
 
-    private CapsuleCollider _playerCollider;                                // collider for obstacle checking
     private SphereCollider _groundingCollider;                              // collider used for checking ground
 
-    private Vector2 _oldVelocityDirection;                                  // velocity on the previous frame 
     private float _gravityVelocity;                                         // stores velocity of gravity
 
     private const float k_groundSticknessAccuracy = 0.01f;                  // minimum distance to be mesured for calculating grounding
@@ -59,15 +51,6 @@ public class KinematicCharacterController: MonoBehaviour
         }
         else Debug.LogError("Player Sphere Collider is not set!!!");
 
-        _playerCollider = GetComponent<CapsuleCollider>();
-        if (_playerCollider != null)
-        {
-            _playerCollider.height = PlayerHeight;
-            _playerCollider.radius = PlayerRadius;
-            _playerCollider.center = transform.up * (PlayerHeight / 2 + MaxStepHeight);
-        }
-        else Debug.LogError("Player Capsule Collider is not set!!!");
-
         // ground checker setup
         if (GroundingChecker != null)
         {
@@ -77,24 +60,22 @@ public class KinematicCharacterController: MonoBehaviour
         else Debug.LogError("Grounding checker is not set!!!");
     }
 
-    private void FixedUpdate()
-    {
-        StickPlayerToTheGround();
-        ResolveCollision();
-    }
-
-    public void MovePlayer(Vector2 direction, float velocity)
+    public void MovePlayer(Vector3 direction, float velocity)
     {
         direction.Normalize();
 
-        transform.position += 
-            (direction.x * Vector3.forward + direction.y * Vector3.right) 
-            * velocity * Time.fixedDeltaTime;
+        transform.position += direction * velocity * Time.fixedDeltaTime;
 
-        _oldVelocityDirection = direction;
+        // direction.Normalize();
+        // 
+        // transform.position += 
+        //     (direction.x * Vector3.forward + direction.y * Vector3.right) 
+        //     * velocity * Time.fixedDeltaTime;
+        // 
+        // _oldVelocityDirection = direction;
     }
 
-    private void StickPlayerToTheGround()
+    public void StickPlayerToTheGround()
     {
         //checking if there is any plane that player can stand on
         RaycastHit hit;
@@ -173,26 +154,26 @@ public class KinematicCharacterController: MonoBehaviour
 
     }
 
-    private void ResolveCollision()
+    public void ResolveCollision()
     {
-        // getting obstacle colliders that we hit after performing move
-        Collider[] colliders = Physics.OverlapCapsule(
-            transform.position + _playerCollider.center - (transform.up * (PlayerHeight - 2 * PlayerRadius) / 2),
-            transform.position + _playerCollider.center + (transform.up * (PlayerHeight - 2 * PlayerRadius) / 2),
-            PlayerRadius,
+        Collider[] colliders = Physics.OverlapSphere(
+            GroundingChecker.position,
+            GroundingSphereRadius,
             ObstacleLayerMask | PhysicsLayerMask,
             QueryTriggerInteraction.Ignore);
 
         // resolving collision for each collider
         foreach (Collider collider in colliders)
         {
+            Debug.Log(collider.name);
+
             Vector3 collisionResolveDirection;
             float collisionResolveDistance;
 
             if (Physics.ComputePenetration(
-                _playerCollider,
-                transform.position,
-                transform.rotation,
+                _groundingCollider,
+                GroundingChecker.position,
+                GroundingChecker.rotation,
                 collider,
                 collider.transform.position,
                 collider.transform.rotation,
@@ -209,7 +190,11 @@ public class KinematicCharacterController: MonoBehaviour
                         ForceMode.Force);
                 }
 
-                transform.position += collisionResolveDistance * collisionResolveDirection;
+                transform.position +=
+                    collisionResolveDistance * 
+                    collisionResolveDirection;
+
+                Debug.DrawRay(transform.position,  collisionResolveDistance * collisionResolveDirection, Color.yellow, 10f);
             }
         }
     }
