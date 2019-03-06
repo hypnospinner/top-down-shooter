@@ -122,4 +122,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ad2bb796b3ccfb40818d19b1ceea247, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DamageDataPrefab: {fileID: 11400000, guid: cc4ff07d8c074d149893cac5a5bbdb1e, type: 2}
+  DamageDataPrefab: {fileID: 11400000, guid: 2cced000f6e40c94da5683a8aa79989d, type: 2}
