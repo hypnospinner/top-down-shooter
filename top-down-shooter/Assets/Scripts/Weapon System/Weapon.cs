@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public delegate bool InputHandler();                        // delegate for handling events
 
@@ -60,6 +61,7 @@ public class WeaponData : ScriptableObject
     // parameters
     [SerializeField] protected GameObject weaponPrefab;             // prefab of weapon for weapon data
     [SerializeField] protected GameObject projectilePrefab;         // projectile prefab for weapon
+    [SerializeField] protected Color weaponIcon;                    // weapon icon
     [SerializeField] protected float fireRate;                      // time span between shots
     [SerializeField] protected float reloadingTime;                 // time for reloading
     [SerializeField] protected int clipSize;                        // size of clip
@@ -85,6 +87,7 @@ public class WeaponData : ScriptableObject
     public GameObject ProjectilePrefab { get => projectilePrefab; }
     public int ClipSize { get => clipSize; }
     public int StartAmmo { get => startAmmo; }
+    public Color WeaponIcon { get => weaponIcon; }
 
     // for loading data for new weapon data object
     public void SetWeaponData(WeaponData weaponData)
@@ -102,10 +105,7 @@ public class WeaponData : ScriptableObject
 
     public override string ToString()
     {
-        return "Weapon Prefab " + weaponPrefab +
-            "\n Projectile Prefab " + projectilePrefab +
-            "\n Clip " + clip +
-            "\n Ammo " + ammo;
+        return clip.ToString();
     }
 }
 

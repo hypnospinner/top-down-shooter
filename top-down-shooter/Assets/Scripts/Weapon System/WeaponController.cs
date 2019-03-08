@@ -1,11 +1,17 @@
 ﻿using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
 class WeaponController : MonoBehaviour
 {
     #region Fields 
 
+    public TextMeshProUGUI _bullets;                    // ui for current clip
+    public Image _weaponIcon;                           // ui for current weapon
+
     private PlayerInputController _inputController;     // reference to input controller
     private GameObject[] _weapons;                      // massive for stored weapon gameObjects
+    private WeaponData _currentWeaponData;              // reference to weapon data for chosen weapon
     private int _activeWeaponIndex;                     // index of current active weapon
     private int _weaponCount;                           // amount of weapons currently
 
@@ -40,9 +46,15 @@ class WeaponController : MonoBehaviour
 
     private void Update()
     {
-        if (_inputController.MouseWheel == MouseWheelState.ScrollForward||
+        if (_inputController.MouseWheel == MouseWheelState.ScrollForward ||
             _inputController.MouseWheel == MouseWheelState.ScrollBackward)
             SwitchWeapons();
+
+        if (_currentWeaponData != null)
+        {
+            _bullets.SetText(_currentWeaponData.ToString());
+            _weaponIcon.color = _currentWeaponData.WeaponIcon;
+        }
     }
 
     public WeaponData PickWeapon(WeaponData weaponData)
@@ -55,11 +67,13 @@ class WeaponController : MonoBehaviour
                     transform.position, 
                     transform.rotation, 
                     transform) as GameObject;
+
                 Weapon weapon = _weapons[0].GetComponent<Weapon>();
                 weapon.WeaponData = ScriptableObject.CreateInstance<WeaponData>();
                 weapon.WeaponData.SetWeaponData(weaponData);
                 _weaponCount = 1;
                 _activeWeaponIndex = 0;
+                _currentWeaponData = weapon.WeaponData;
                 return null;
 
             case 1:
@@ -68,6 +82,7 @@ class WeaponController : MonoBehaviour
                     transform.position, 
                     transform.rotation, 
                     transform) as GameObject;
+
                 Weapon secondWeapon = _weapons[1].GetComponent<Weapon>();
                 secondWeapon.WeaponData = ScriptableObject.CreateInstance<WeaponData>();
                 secondWeapon.WeaponData.SetWeaponData(weaponData);
@@ -89,9 +104,10 @@ class WeaponController : MonoBehaviour
                     transform.rotation,
                     transform) as GameObject;
 
-                var activeWeaponData = _weapons[_activeWeaponIndex].GetComponent<Weapon>().WeaponData = 
+                _currentWeaponData = _weapons[_activeWeaponIndex].GetComponent<Weapon>().WeaponData = 
                     ScriptableObject.CreateInstance<WeaponData>();
-                activeWeaponData.SetWeaponData(weaponData);
+
+                _currentWeaponData.SetWeaponData(weaponData);
                 return dropedWeaponData;
 
             default: break;
@@ -112,6 +128,8 @@ class WeaponController : MonoBehaviour
         _weapons[newIndex].SetActive(true);
 
         _activeWeaponIndex = newIndex;
+
+        _currentWeaponData = _weapons[_activeWeaponIndex].GetComponent<Weapon>().WeaponData;
     }
     
     #endregion
