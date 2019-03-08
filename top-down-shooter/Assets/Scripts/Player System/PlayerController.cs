@@ -110,32 +110,3 @@ public class PlayerController : MonoBehaviour, IDamagable
     }
     #endregion
 }
-
-public interface IDamagable
-{
-    void ReceiveDamage(DamageData damage);
-
-    bool ReceiveAID(DamageType ktiType);
-}
-
-[CreateAssetMenu(fileName = "New Damage Data", menuName = "Damage Data")]
-public class DamageData : ScriptableObject
-{
-    [SerializeField] private DamageType damageType;
-    [SerializeField] private float damage;
-    public DamageType DamageType { get => damageType; }
-    public float Damage { get => damage; set => damage = value; }
-
-
-    public void SetDamageData(DamageData damageData)
-    {
-        damageType = damageData.DamageType;
-        damage = damageData.Damage;
-    }
-}
-
-public enum DamageType
-{
-    Instant,            // damage is dealt instantly
-    ContinuousFire,     // damage is dealt contimuously (with Fire effect)
-}

@@ -65,14 +65,6 @@ public class KinematicCharacterController: MonoBehaviour
         direction.Normalize();
 
         transform.position += direction * velocity * Time.fixedDeltaTime;
-
-        // direction.Normalize();
-        // 
-        // transform.position += 
-        //     (direction.x * Vector3.forward + direction.y * Vector3.right) 
-        //     * velocity * Time.fixedDeltaTime;
-        // 
-        // _oldVelocityDirection = direction;
     }
 
     public void StickPlayerToTheGround()
@@ -165,8 +157,6 @@ public class KinematicCharacterController: MonoBehaviour
         // resolving collision for each collider
         foreach (Collider collider in colliders)
         {
-            Debug.Log(collider.name);
-
             Vector3 collisionResolveDirection;
             float collisionResolveDistance;
 
