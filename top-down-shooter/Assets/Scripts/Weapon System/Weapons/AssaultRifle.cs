@@ -5,6 +5,7 @@ class AssaultRifle : Weapon
 {
     #region Behaviour
 
+    // initializing
     protected override void Awake()
     {
         base.Awake();
@@ -22,6 +23,7 @@ class AssaultRifle : Weapon
             _isReady;
     }
 
+    // shooting
     protected override IEnumerator Fire()
     {
         _isReady = false;
@@ -35,6 +37,7 @@ class AssaultRifle : Weapon
         _isReady = true;
     }
 
+    // reloading
     protected override IEnumerator Reload()
     {
         _isReady = false;

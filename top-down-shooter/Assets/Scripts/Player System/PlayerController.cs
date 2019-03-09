@@ -8,14 +8,14 @@ public class PlayerController : MonoBehaviour, IDamagable
     #region Fields 
 
     // fields
-    [SerializeField] private float MaxHealth;
-    [SerializeField] private float _movementSpeed;
-    [SerializeField] private float _rotationSpeed;
-
-    private float _health;
-    private PlayerInputController _inputController;
-    private Dictionary<DamageType, int> _AIDKits;
-    private Stack<DamageType> _AIDStack;
+    [SerializeField] private float MaxHealth;               // top limit for health
+    [SerializeField] private float _movementSpeed;          // how quickly player moves
+    [SerializeField] private float _rotationSpeed;          // how quickly player rotates
+                                                            
+    private float _health;                                  // actual health value
+    private PlayerInputController _inputController;         // reference to input controller
+    private Dictionary<DamageType, int> _AIDKits;           // current amount of AID kits
+    private Stack<DamageType> _AIDStack;                    // special queue for continuous damage (maybe it will be better to write custom collection)
 
     // properties
     public float Health { get => _health; }
@@ -26,11 +26,13 @@ public class PlayerController : MonoBehaviour, IDamagable
 
     #region Behaviour 
 
+    // initializing
     private void Awake()
     {
         _AIDStack = new Stack<DamageType>();
         _AIDStack.Push(DamageType.Instant);
 
+        // seems to be not very good
         _AIDKits = new Dictionary<DamageType, int>();
         _AIDKits[DamageType.Instant] = 0;
         _AIDKits[DamageType.ContinuousFire] = 0;
@@ -42,6 +44,7 @@ public class PlayerController : MonoBehaviour, IDamagable
             Debug.LogError("Player Input Controller is not set!!!");
     }
 
+    // controls aid kit usage
     private void Update()
     {
         if (_AIDStack.Peek() == DamageType.Instant)
@@ -59,6 +62,7 @@ public class PlayerController : MonoBehaviour, IDamagable
             _health -= 2;
     }
 
+    // called when someone attempts to damage player
     public void ReceiveDamage(DamageData damageData)
     {
         switch (damageData.DamageType)
@@ -75,6 +79,7 @@ public class PlayerController : MonoBehaviour, IDamagable
         }
     }
 
+    // calculating continuous damage
     private IEnumerator DealContinuousDamage(DamageData damageData)
     {
         float damagePerFrame = damageData.Damage;
@@ -102,6 +107,7 @@ public class PlayerController : MonoBehaviour, IDamagable
         _AIDStack = new Stack<DamageType>(temp);
     }
 
+    // picking up aid
     public bool ReceiveAID(DamageType kitType)
     {
         _AIDKits[kitType]++;

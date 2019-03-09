@@ -1,24 +1,24 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-// TODO: Add support for highlighing interactive objects
 [RequireComponent(typeof(SphereCollider))]
 public class PlayerInteractor : MonoBehaviour
 {
     #region Fields    
 
-    [SerializeField] private float InteractionRadius;
-
-    private Interactive.InteractiveObjectStateHandler _removeInteractive;
-    private SphereCollider _interactionZone;
-    private List<Interactive> _interactiveObjects;
-    private Interactive _currentInteractiveObject;
-    private PlayerInputController _inputController;
+    [SerializeField] private float InteractionRadius;                       // size for Interactive Zone
+                                                                            
+    private Interactive.InteractiveStateHandler _removeInteractive;   // what happens when obj is destroyed
+    private SphereCollider _interactionZone;                                // sphere collider 
+    private List<Interactive> _interactiveObjects;                          // interactive objects close to player
+    private Interactive _currentInteractiveObject;                          // gameObject that player is going to interact with
+    private PlayerInputController _inputController;                         // reference to Player Input Controller
 
     #endregion
 
     #region Behaviour 
 
+    // initializing component
     private void Awake()
     {
         _interactiveObjects = new List<Interactive>();
@@ -39,6 +39,7 @@ public class PlayerInteractor : MonoBehaviour
         _removeInteractive = interactive => _interactiveObjects.Remove(interactive);
     }
 
+    // finding closest interactive and interacting with it if there is input for that
     private void Update()
     {
         _currentInteractiveObject = FindCurrentInteractive();
@@ -47,6 +48,7 @@ public class PlayerInteractor : MonoBehaviour
             _currentInteractiveObject?.Interact(gameObject.transform.root.gameObject);
     }
 
+    // returns closest interactive obj
     private Interactive FindCurrentInteractive()
     {
         if(_interactiveObjects.Count > 0)
@@ -71,6 +73,7 @@ public class PlayerInteractor : MonoBehaviour
         return null;
     }
 
+    // adds to interactive obj list if this is interactive obj
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("interactive"))
@@ -85,6 +88,7 @@ public class PlayerInteractor : MonoBehaviour
         }
     }
 
+    // removes from interactive obj list if this is interactive obj
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("interactive"))
@@ -101,10 +105,5 @@ public class PlayerInteractor : MonoBehaviour
         }
     }
 
-    public void InteractedWithDestruction(Interactive destructedInteractive)
-    
-{
-        _interactiveObjects.Remove(destructedInteractive);
-    }
     #endregion
 }

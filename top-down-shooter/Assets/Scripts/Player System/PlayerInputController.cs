@@ -23,7 +23,7 @@ public sealed class PlayerInputController : MonoBehaviour
     private ButtonState _abilityButton;                     // stands for SPACE button state
 
     // properties (actually available input fields)
-    public float UpInput                               // public readonly WS input
+    public float UpInput                                    // public readonly WS input
     {
         get => _movementInput.y;
         private set => _movementInput.y = value;
@@ -86,6 +86,7 @@ public sealed class PlayerInputController : MonoBehaviour
 
     #region Behaviour
 
+    // initializing and setting default values
     private void Awake()
     {
         _movementInput = Vector2.zero;
@@ -99,6 +100,7 @@ public sealed class PlayerInputController : MonoBehaviour
             Debug.Log("Player Camera for calculating pointer is not set!!");
     }
 
+    // getting input
     private void Update()
     {
         GetMovementInput();
@@ -109,10 +111,7 @@ public sealed class PlayerInputController : MonoBehaviour
 
         GetWeaponInput();
 
-        if (!Blocked)
-        {
-        }
-        else
+        if (Blocked)
         {
             UpInput = 0f;
             RightInput = 0f;
@@ -127,6 +126,7 @@ public sealed class PlayerInputController : MonoBehaviour
         }
     }
 
+    // getting movement direction
     private void GetMovementInput()
     {
         _movementInput.x = Input.GetAxisRaw("Horizontal");
@@ -143,6 +143,7 @@ public sealed class PlayerInputController : MonoBehaviour
         }
     }
 
+    // getting look at direction
     private void GetPointerPosition()
     {
         RaycastHit hit;
@@ -152,12 +153,14 @@ public sealed class PlayerInputController : MonoBehaviour
             _pointer = new Pointer(hit.point, hit.transform.gameObject);
     }
 
+    // Q and E input
     private void GetInterctionInput()
     {
         _isInteracting = Input.GetButtonDown("Interact") ? true : false;
         _isContextInteracting = Input.GetButtonDown("ContextInteract") ? true : false;
     }
 
+    // Mouse input
     private void GetWeaponInput()
     {
         _leftMouseButton =
@@ -198,14 +201,23 @@ public sealed class PlayerInputController : MonoBehaviour
 
 public struct Pointer
 {
-    public readonly Vector3 HitPoint;
-    public readonly GameObject HitGameObject;
+    #region Fields
 
+    public readonly Vector3 HitPoint;           // where player was hit
+    public readonly GameObject HitGameObject;   // what object was hit (for targeting)
+
+    #endregion
+
+    #region Behaviour
+
+    // constructor
     public Pointer(Vector3 hitPoint, GameObject hitGameObject)
     {
         HitPoint = hitPoint;
         HitGameObject = hitGameObject;
     }
+
+    #endregion
 }
 
 public enum ButtonState

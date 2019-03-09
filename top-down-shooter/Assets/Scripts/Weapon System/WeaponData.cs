@@ -3,6 +3,8 @@
 [CreateAssetMenu(fileName = "New Weapon Data", menuName = "WeaponData")]
 public class WeaponData : ScriptableObject
 {
+    #region Fields
+
     // parameters
     [SerializeField] protected GameObject weaponPrefab;             // prefab of weapon for weapon data
     [SerializeField] protected GameObject projectilePrefab;         // projectile prefab for weapon
@@ -32,6 +34,10 @@ public class WeaponData : ScriptableObject
     public int ClipSize { get => clipSize; }
     public int StartAmmo { get => startAmmo; }
 
+    #endregion
+
+    #region Behaviour
+
     // for loading data for new weapon data object
     public void SetWeaponData(WeaponData weaponData)
     {
@@ -45,4 +51,6 @@ public class WeaponData : ScriptableObject
         ammo = weaponData.Ammo;
         clip = weaponData.Clip;
     }
+
+    #endregion
 }

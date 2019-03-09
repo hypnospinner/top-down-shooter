@@ -16,6 +16,7 @@ public class ProjectileController : MonoBehaviour
 
     #region Behaviour
 
+    // initializing
     private void Awake()
     {
         _damageSender = GetComponent<DamageSender>();
@@ -23,6 +24,7 @@ public class ProjectileController : MonoBehaviour
         Destroy(gameObject, AttackDistance / ProjectileSpeed);
     }
 
+    // checking for hit
     private void FixedUpdate()
     {
         RaycastHit hit;

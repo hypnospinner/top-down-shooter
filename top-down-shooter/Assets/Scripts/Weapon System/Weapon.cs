@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public delegate bool InputHandler();                        // delegate for handling events
+public delegate bool InputHandler();
 
 public abstract class Weapon : MonoBehaviour
 {
@@ -27,6 +27,7 @@ public abstract class Weapon : MonoBehaviour
 
     #region Behavour
 
+    // initializing (there player should define 
     protected virtual void Awake()
     {
         _isReady = true;
@@ -36,6 +37,7 @@ public abstract class Weapon : MonoBehaviour
             Debug.LogError("Player Input Controller is not set!!!");
     }
 
+    // checking wether to reload or shoot 
     protected virtual void Update()
     {
         if (ReloadInput == null ? false : ReloadInput())
@@ -45,8 +47,10 @@ public abstract class Weapon : MonoBehaviour
             StartCoroutine(Fire());
     }
 
+    // shooting
     protected abstract IEnumerator Fire();
 
+    // reloading
     protected abstract IEnumerator Reload();
     
     #endregion

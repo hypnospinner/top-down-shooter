@@ -5,26 +5,23 @@ public class HyperDashAbility : Ability
 {
     #region Fields
 
-    [SerializeField][Range(0f, .5f)] private float DashTime;
-    [SerializeField][Range(0f, 5f)] private float DashDistance;
+    [SerializeField][Range(0f, .5f)] private float DashTime;        // time that player needs to make a dash
+    [SerializeField][Range(0f, 5f)] private float DashDistance;     // max distance that player will cover
+                                                                    
+    private PlayerInputController _inputController;                 // reference to input controller component
+    private KinematicCharacterController _characterController;      // reference to KCC
 
-    private PlayerInputController _inputController;
-    private KinematicCharacterController _characterController;
-    public PlayerMovementController _movementController;
-
-    private float speed;
+    private float speed;                                            // stores speed (in order no to recalculate)
 
     #endregion
 
     #region Behaviour
 
-    private void Awake()
-    {
-        AbilityTrigger = () => _inputController.AbilityButton == ButtonState.Down;
-    }
-
+    // we gurantee that this method wil be called before using ability
     public override void InitializeAbility(GameObject playerGameObject)
     {
+        AbilityTrigger = () => _inputController.AbilityButton == ButtonState.Down;
+
         _inputController = playerGameObject.GetComponent<PlayerInputController>();
         if (_inputController == null)
             Debug.Log("Ability failed to get Input Controller");
@@ -33,18 +30,16 @@ public class HyperDashAbility : Ability
         if (_characterController == null)
             Debug.Log("Ability failed to get Kinematic Character Controller");
 
-        _movementController = playerGameObject.GetComponent<PlayerMovementController>();
-        if (_movementController == null)
-            Debug.Log("Ability failed to get Player Movement Controller");
-
         speed = DashDistance / DashTime;
     }
 
+    // actual execution incapsulation
     public override void ExecuteAbility()
     {
         StartCoroutine(DashForward());
     }
 
+    // handles movement with KCC (should be enhanced)
     private IEnumerator DashForward()
     {
         _inputController.Blocked = true;

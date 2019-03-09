@@ -40,6 +40,7 @@ public class KinematicCharacterController: MonoBehaviour
 
     #region Behaviour
 
+    // initializing
     private void Awake()
     {
         // colliders setup
@@ -60,6 +61,7 @@ public class KinematicCharacterController: MonoBehaviour
         else Debug.LogError("Grounding checker is not set!!!");
     }
 
+    // moves player to direction with velocity
     public void MovePlayer(Vector3 direction, float velocity)
     {
         direction.Normalize();
@@ -67,6 +69,7 @@ public class KinematicCharacterController: MonoBehaviour
         transform.position += direction * velocity * Time.fixedDeltaTime;
     }
 
+    // gravity and grounding
     public void StickPlayerToTheGround()
     {
         //checking if there is any plane that player can stand on
@@ -146,6 +149,7 @@ public class KinematicCharacterController: MonoBehaviour
 
     }
 
+    // resolves collision with obstacles
     public void ResolveCollision()
     {
         Collider[] colliders = Physics.OverlapSphere(
@@ -189,6 +193,7 @@ public class KinematicCharacterController: MonoBehaviour
         }
     }
 
+    // GameObject is in mask? => true
     private bool SatisfiesMask(GameObject gameObject, LayerMask mask)
     {
         int gameObjectLayer = gameObject.layer;

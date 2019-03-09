@@ -9,7 +9,7 @@ public class PlayerMovementController : MonoBehaviour
     private KinematicCharacterController _characterController;      // responsible for all movement calculations
     private PlayerInputController _playerInput;                     // responsible for input
     private PlayerController _playerController;                     // stats of player
-    private Vector3 _lookDirection;
+    private Vector3 _lookDirection;                                 // where player should look at
 
     public Vector3 LookDirection { get => _lookDirection; }
 
@@ -17,6 +17,7 @@ public class PlayerMovementController : MonoBehaviour
 
     #region Behaviour
 
+    // initializing
     private void Awake()
     {
         _characterController = GetComponent<KinematicCharacterController>();
@@ -32,9 +33,9 @@ public class PlayerMovementController : MonoBehaviour
             Debug.Log("Player Controller is not set!!!");
     }
 
+    // moving player
     private void FixedUpdate()
     {
-        // moving player
         if (_playerInput.IsMoving)
             _characterController.MovePlayer(
                 new Vector3(_playerInput.RightInput, 0f, _playerInput.UpInput), 

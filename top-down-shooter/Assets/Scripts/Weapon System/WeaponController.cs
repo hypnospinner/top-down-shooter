@@ -13,6 +13,7 @@ class WeaponController : MonoBehaviour
     
     #region Behaviour
 
+    // initializing
     private void Awake()
     {
         _activeWeaponIndex = -1;
@@ -38,6 +39,7 @@ class WeaponController : MonoBehaviour
         }
     }
 
+    // attempting to switch weapons
     private void Update()
     {
         if (_inputController.MouseWheel == MouseWheelState.ScrollForward||
@@ -45,6 +47,7 @@ class WeaponController : MonoBehaviour
             SwitchWeapons();
     }
 
+    // getting new weapon
     public WeaponData PickWeapon(WeaponData weaponData)
     {
         switch(_weaponCount)
@@ -100,6 +103,7 @@ class WeaponController : MonoBehaviour
         return null;
     }
 
+    // switching weapons
     private void SwitchWeapons()
     {
         if (_weaponCount < 2)

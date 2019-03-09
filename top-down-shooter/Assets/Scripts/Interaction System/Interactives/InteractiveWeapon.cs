@@ -11,6 +11,7 @@ class InteractiveWeapon : Interactive
     
     #region Behaviour    
 
+    // initialization
     private void Awake()
     {
         if (weaponDataPrefab == null)
@@ -20,6 +21,7 @@ class InteractiveWeapon : Interactive
         _weaponData.SetWeaponData(weaponDataPrefab);
     }
 
+    // interaction
     public override void Interact(GameObject interactor)
     {
         _weaponData =

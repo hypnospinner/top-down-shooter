@@ -5,6 +5,7 @@ class Pistol : Weapon
 {
     #region Behavior
 
+    // initializing
     protected override void Awake()
     {
         base.Awake();
@@ -21,6 +22,7 @@ class Pistol : Weapon
             _isReady;
     }
 
+    // shooting
     protected override IEnumerator Fire()
     {
         _isReady = false;
@@ -34,6 +36,7 @@ class Pistol : Weapon
         _isReady = true;
     }
 
+    // reloading
     protected override IEnumerator Reload()
     {
         _isReady = false;

@@ -6,14 +6,13 @@ public abstract class Ability : MonoBehaviour
 
     [SerializeField] private float staminaConsumption;      // how much stamina ability needs to be executed
 
-    protected InputHandler AbilityTrigger;
-
-    public float StaminaConsumption { get => staminaConsumption; }
+    protected InputHandler AbilityTrigger;                  // describes when we should call ability Execution
 
     #endregion
 
     #region Behaviour
 
+    // executing ability if there is any trigger for it
     private void Update()
     {
         if (AbilityTrigger != null ? AbilityTrigger() : false)
