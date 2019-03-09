@@ -8,7 +8,7 @@ public class PlayerInteractor : MonoBehaviour
 
     [SerializeField] private float InteractionRadius;                       // size for Interactive Zone
                                                                             
-    private Interactive.InteractiveStateHandler _removeInteractive;   // what happens when obj is destroyed
+    private InteractiveStateHandler _removeInteractive;   // what happens when obj is destroyed
     private SphereCollider _interactionZone;                                // sphere collider 
     private List<Interactive> _interactiveObjects;                          // interactive objects close to player
     private Interactive _currentInteractiveObject;                          // gameObject that player is going to interact with
