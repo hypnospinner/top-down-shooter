@@ -172,7 +172,6 @@ public sealed class PlayerInputController : MonoBehaviour
             Input.GetMouseButtonUp(1)               ?   ButtonState.Release :
                                                         ButtonState.Up;
         
-        // TODO: get rid of KeyCode...
         _reloadingButton =
             Input.GetButtonDown("Reload")           ?   ButtonState.Down :
             Input.GetButton("Reload")               ?   ButtonState.Hold :

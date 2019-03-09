@@ -44,7 +44,6 @@ public class PlayerController : MonoBehaviour, IDamagable
 
     private void Update()
     {
-        // TODO: show context suggestion if there is possiblity for that
         if (_AIDStack.Peek() == DamageType.Instant)
         {
             if (_health < MaxHealth && _AIDKits[DamageType.Instant] > 0)

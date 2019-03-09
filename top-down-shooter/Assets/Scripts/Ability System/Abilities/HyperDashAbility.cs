@@ -47,7 +47,6 @@ public class HyperDashAbility : Ability
 
     private IEnumerator DashForward()
     {
-        // TODO: prevent collider from going throw objects
         _inputController.Blocked = true;
         float timer = DashTime;
 

@@ -7,7 +7,6 @@ public class DamageReceiver : MonoBehaviour, IDamagable
         return false;
     }
 
-    // TODO: implement this moq
     public void ReceiveDamage(DamageData damage)
     {
         Debug.Log("Damaged!!!");

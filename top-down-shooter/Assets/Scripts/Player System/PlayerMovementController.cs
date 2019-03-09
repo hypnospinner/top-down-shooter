@@ -1,10 +1,5 @@
 ﻿using UnityEngine;
 
-/*  
- *  TODO: Incapuslate unnessecary fields in their calses
- *  TODO: Implement Ability System support (bounded with Inventory (or interaction system)
- */
-
 [RequireComponent(typeof(KinematicCharacterController))]
 [RequireComponent(typeof(PlayerInputController))]
 public class PlayerMovementController : MonoBehaviour

@@ -97,7 +97,6 @@ class WeaponController : MonoBehaviour
             default: break;
         }
 
-        // TODO: This return can cause problems. Better create enum for _weaponCount int order to have a full match in switch
         return null;
     }
 
