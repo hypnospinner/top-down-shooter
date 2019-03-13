@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour, IDamagable
 {
@@ -11,7 +10,7 @@ public class PlayerController : MonoBehaviour, IDamagable
     [SerializeField] private float MaxHealth;               // top limit for health
     [SerializeField] private float _movementSpeed;          // how quickly player moves
     [SerializeField] private float _rotationSpeed;          // how quickly player rotates
-                                                            
+
     private float _health;                                  // actual health value
     private PlayerInputController _inputController;         // reference to input controller
     private Dictionary<DamageType, int> _AIDKits;           // current amount of AID kits
@@ -20,7 +19,7 @@ public class PlayerController : MonoBehaviour, IDamagable
     // properties
     public float Health { get => _health; }
     public float MovementSpeed { get => _movementSpeed; }
-    public float RotationSpeed { get => _rotationSpeed; }
+    public float RotationSpeed { get => _rotationSpeed; }    
 
     #endregion
 
@@ -28,6 +27,15 @@ public class PlayerController : MonoBehaviour, IDamagable
 
     // initializing
     private void Awake()
+    {
+        InitializePlayer();
+
+        _inputController = GetComponent<PlayerInputController>();
+        if (_inputController == null)
+            Debug.LogError("Player Input Controller is not set!!!");
+    }
+
+    private void InitializePlayer()
     {
         _AIDStack = new Stack<DamageType>();
         _AIDStack.Push(DamageType.Instant);
@@ -38,10 +46,6 @@ public class PlayerController : MonoBehaviour, IDamagable
         _AIDKits[DamageType.ContinuousFire] = 0;
 
         _health = MaxHealth;
-
-        _inputController = GetComponent<PlayerInputController>();
-        if (_inputController == null)
-            Debug.LogError("Player Input Controller is not set!!!");
     }
 
     // controls aid kit usage
