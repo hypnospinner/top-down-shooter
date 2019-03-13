@@ -95,6 +95,7 @@ public sealed class PlayerInputController : MonoBehaviour
         GetWeaponInput();
 
         _playerCamera = GameObject.FindGameObjectWithTag("MainCamera")?.GetComponent<Camera>();
+        _playerCamera.GetComponent<CameraController>().Target = transform;
 
         if (_playerCamera == null)
             Debug.Log("Player Camera for calculating pointer is not set!!");

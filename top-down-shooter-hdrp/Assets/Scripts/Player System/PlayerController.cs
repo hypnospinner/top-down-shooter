@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public delegate void PlayerStateHandler();
+
 public class PlayerController : MonoBehaviour, IDamagable
 {
     #region Fields 
@@ -10,6 +12,8 @@ public class PlayerController : MonoBehaviour, IDamagable
     [SerializeField] private float MaxHealth;               // top limit for health
     [SerializeField] private float _movementSpeed;          // how quickly player moves
     [SerializeField] private float _rotationSpeed;          // how quickly player rotates
+
+    public event PlayerStateHandler OnPlayerDead;           // called when player's health is under 0
 
     private float _health;                                  // actual health value
     private PlayerInputController _inputController;         // reference to input controller
@@ -28,15 +32,6 @@ public class PlayerController : MonoBehaviour, IDamagable
     // initializing
     private void Awake()
     {
-        InitializePlayer();
-
-        _inputController = GetComponent<PlayerInputController>();
-        if (_inputController == null)
-            Debug.LogError("Player Input Controller is not set!!!");
-    }
-
-    private void InitializePlayer()
-    {
         _AIDStack = new Stack<DamageType>();
         _AIDStack.Push(DamageType.Instant);
 
@@ -46,6 +41,10 @@ public class PlayerController : MonoBehaviour, IDamagable
         _AIDKits[DamageType.ContinuousFire] = 0;
 
         _health = MaxHealth;
+
+        _inputController = GetComponent<PlayerInputController>();
+        if (_inputController == null)
+            Debug.LogError("Player Input Controller is not set!!!");
     }
 
     // controls aid kit usage
@@ -63,7 +62,10 @@ public class PlayerController : MonoBehaviour, IDamagable
         }
 
         if (Input.GetKeyDown(KeyCode.K))
-            _health -= 2;
+            _health -= 10f;
+
+        if (_health <= 0f)
+            OnPlayerDead();
     }
 
     // called when someone attempts to damage player
@@ -117,5 +119,6 @@ public class PlayerController : MonoBehaviour, IDamagable
         _AIDKits[kitType]++;
         return true;
     }
+
     #endregion
 }

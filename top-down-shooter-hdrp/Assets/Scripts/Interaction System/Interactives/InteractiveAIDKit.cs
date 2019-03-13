@@ -13,9 +13,9 @@ class InteractiveAIDKit : Interactive
     // interaction
     public override void Interact(GameObject interactor)
     {
-        IDamagable damagable = interactor.GetComponent<IDamagable>();
+        var playerController = interactor.GetComponent<PlayerController>();
 
-        if (damagable != null ? damagable.ReceiveAID(AIDType) : false)
+        if (playerController != null && playerController.ReceiveAID(AIDType))
             DestroyInteractive();
     }
 
