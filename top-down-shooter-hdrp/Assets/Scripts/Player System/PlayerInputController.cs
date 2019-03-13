@@ -5,12 +5,12 @@ public sealed class PlayerInputController : MonoBehaviour
 {
     #region Fields
 
-    public bool Blocked;                                    // defines if we block getting input or not
+    [HideInInspector] public bool Blocked;                  // defines if we block getting input or not
 
-    [SerializeField] private Camera PlayerCamera;           // reference to camera for finding point in world that mouse points
     [SerializeField] private LayerMask PointerLayerMask;    // layer mask for pointing
     
     // private fields
+    private Camera _playerCamera;                           // reference to camera for finding point in world that mouse points
     private Vector2 _movementInput;                         // WS - forward and AD - right input
     private bool _isMoving;                                 // wether we made any input or not
     private Pointer _pointer;                               // storing data about place we point
@@ -92,12 +92,15 @@ public sealed class PlayerInputController : MonoBehaviour
         _movementInput = Vector2.zero;
         _isMoving = false;
 
-        GetPointerPosition();
-
         GetWeaponInput();
 
-        if (PlayerCamera == null)
+        _playerCamera = GameObject.FindGameObjectWithTag("MainCamera")?.GetComponent<Camera>();
+        _playerCamera.GetComponent<CameraController>().Target = transform;
+
+        if (_playerCamera == null)
             Debug.Log("Player Camera for calculating pointer is not set!!");
+
+        GetPointerPosition();
     }
 
     // getting input
@@ -147,7 +150,7 @@ public sealed class PlayerInputController : MonoBehaviour
     private void GetPointerPosition()
     {
         RaycastHit hit;
-        Ray ray = PlayerCamera.ScreenPointToRay(Input.mousePosition);
+        Ray ray = _playerCamera.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out hit, 100f, PointerLayerMask, QueryTriggerInteraction.Ignore))
             _pointer = new Pointer(hit.point, hit.transform.gameObject);

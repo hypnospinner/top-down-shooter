@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+
+public delegate void PlayerStateHandler();
 
 public class PlayerController : MonoBehaviour, IDamagable
 {
@@ -11,7 +12,9 @@ public class PlayerController : MonoBehaviour, IDamagable
     [SerializeField] private float MaxHealth;               // top limit for health
     [SerializeField] private float _movementSpeed;          // how quickly player moves
     [SerializeField] private float _rotationSpeed;          // how quickly player rotates
-                                                            
+
+    public event PlayerStateHandler OnPlayerDead;           // called when player's health is under 0
+
     private float _health;                                  // actual health value
     private PlayerInputController _inputController;         // reference to input controller
     private Dictionary<DamageType, int> _AIDKits;           // current amount of AID kits
@@ -20,7 +23,7 @@ public class PlayerController : MonoBehaviour, IDamagable
     // properties
     public float Health { get => _health; }
     public float MovementSpeed { get => _movementSpeed; }
-    public float RotationSpeed { get => _rotationSpeed; }
+    public float RotationSpeed { get => _rotationSpeed; }    
 
     #endregion
 
@@ -59,7 +62,10 @@ public class PlayerController : MonoBehaviour, IDamagable
         }
 
         if (Input.GetKeyDown(KeyCode.K))
-            _health -= 2;
+            _health -= 10f;
+
+        if (_health <= 0f)
+            OnPlayerDead();
     }
 
     // called when someone attempts to damage player
@@ -113,5 +119,6 @@ public class PlayerController : MonoBehaviour, IDamagable
         _AIDKits[kitType]++;
         return true;
     }
+
     #endregion
 }
