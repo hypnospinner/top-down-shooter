@@ -261,7 +261,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHealth: 100
-  _movementSpeed: 3
+  _movementSpeed: 5
   _rotationSpeed: 10
 --- !u!114 &3101182677942403313
 MonoBehaviour:
@@ -276,7 +276,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Blocked: 0
-  PlayerCamera: {fileID: 0}
   PointerLayerMask:
     serializedVersion: 2
     m_Bits: 512
