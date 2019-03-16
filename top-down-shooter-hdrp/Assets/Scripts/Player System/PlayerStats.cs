@@ -4,6 +4,8 @@ public delegate void PlayerStateHandler();
 
 public class PlayerStats : MonoBehaviour
 {
+    #region Fields
+
     public PlayerStateHandler OnPlayerDead;
 
     [SerializeField] private float movementSpeed;
@@ -11,8 +13,10 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private float maxHealth;
 
     private float _health;
+    private PlayerClass playerClass;
 
-    public float MaxHealth { get => maxHealth;  }
+    public float MaxHealth
+    { get => maxHealth;  }
     public float Health
     {
         get => _health;
@@ -22,8 +26,15 @@ public class PlayerStats : MonoBehaviour
             if (_health < 0) OnPlayerDead?.Invoke();
         }
     }
-    public float MovementSpeed { get => movementSpeed; }
-    public float RotationSpeed { get => rotationSpeed; }
+    public float MovementSpeed
+    { get => movementSpeed; }
+    public float RotationSpeed
+    { get => rotationSpeed; }
+    public PlayerClass PlayerClass
+    
+{ get => playerClass; set => playerClass = value; }
+
+    #endregion
 }
 
 public enum PlayerClass
