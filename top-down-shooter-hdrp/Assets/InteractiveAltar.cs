@@ -15,9 +15,15 @@ public class InteractiveAltar : Interactive
     {
         var manager = interactor.GetComponent<PlayerManager>();
 
-        manager.PlayerState.PlayerClass = _playerClass;
+        if (manager.PlayerState.PlayerClass != _playerClass)
+        {
+            manager.PlayerState.PlayerClass = _playerClass;
 
-        manager.PlayerState.SetGFX(_playerGFXPrefab);
+            manager.PlayerState.SetGFX(_playerGFXPrefab);
+
+            if (manager.AbilityController.HasAbilty)
+                manager.AbilityController.DropAbility();
+        }
     }
 
     #endregion
