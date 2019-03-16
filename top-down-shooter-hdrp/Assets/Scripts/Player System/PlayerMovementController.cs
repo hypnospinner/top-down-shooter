@@ -8,30 +8,29 @@ public class PlayerMovementController : MonoBehaviour
 
     private KinematicCharacterController _characterController;      // responsible for all movement calculations
     private PlayerInputController _playerInput;                     // responsible for input
-    private PlayerController _playerController;                     // stats of player
+    private PlayerStats _playerStats;                               // reference on player data and values
     private Vector3 _lookDirection;                                 // where player should look at
 
     public Vector3 LookDirection { get => _lookDirection; }
+    public KinematicCharacterController CharacterController
+    {
+        get => _characterController;
+        set => _characterController = _characterController == null ? value : _characterController;
+    }
+    public PlayerInputController PlayerInput
+    { 
+        get => _playerInput; 
+        set => _playerInput = _playerInput == null ? value : _playerInput; 
+    }
+    public PlayerStats PlayerStats
+    {
+        get => _playerStats;
+        set => _playerStats = _playerStats == null ? value : _playerStats;
+    }
 
     #endregion
 
     #region Behaviour
-
-    // initializing
-    private void Awake()
-    {
-        _characterController = GetComponent<KinematicCharacterController>();
-        if (_characterController == null)
-            Debug.Log("Kinematic Character Controller is not set!!!");
-
-        _playerInput = GetComponent<PlayerInputController>();
-        if (_characterController == null)
-            Debug.Log("Player Input Controller is not set!!!");
-
-        _playerController = GetComponent<PlayerController>();
-        if (_characterController == null)
-            Debug.Log("Player Controller is not set!!!");
-    }
 
     // moving player
     private void FixedUpdate()
@@ -39,7 +38,7 @@ public class PlayerMovementController : MonoBehaviour
         if (_playerInput.IsMoving)
             _characterController.MovePlayer(
                 new Vector3(_playerInput.RightInput, 0f, _playerInput.UpInput), 
-                _playerController.MovementSpeed);
+                _playerStats.MovementSpeed);
 
         _characterController.StickPlayerToTheGround();
         _characterController.ResolveCollision();
@@ -51,7 +50,7 @@ public class PlayerMovementController : MonoBehaviour
         transform.rotation = Quaternion.Slerp(
             transform.rotation,
             Quaternion.LookRotation(_lookDirection, Vector3.up),
-            _playerController.RotationSpeed * Time.fixedDeltaTime);
+            _playerStats.RotationSpeed * Time.fixedDeltaTime);
     }
 
     #endregion

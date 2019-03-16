@@ -22,13 +22,11 @@ public class HyperDashAbility : Ability
     {
         AbilityTrigger = () => _inputController.AbilityButton == ButtonState.Down;
 
-        _inputController = playerGameObject.GetComponent<PlayerInputController>();
-        if (_inputController == null)
-            Debug.Log("Ability failed to get Input Controller");
+        var manager = playerGameObject.GetComponent<PlayerManager>();
 
-        _characterController = playerGameObject.GetComponent<KinematicCharacterController>();
-        if (_characterController == null)
-            Debug.Log("Ability failed to get Kinematic Character Controller");
+        _inputController = manager.PlayerInputController;
+
+        _characterController = manager.KinematicCharacterController;
 
         speed = DashDistance / DashTime;
     }

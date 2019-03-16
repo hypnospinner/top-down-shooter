@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public sealed class PlayerInputController : MonoBehaviour
 {
@@ -23,6 +22,11 @@ public sealed class PlayerInputController : MonoBehaviour
     private ButtonState _abilityButton;                     // stands for SPACE button state
 
     // properties (actually available input fields)
+    public Camera PlayerCamera                              // public once initialized ref on Camera component
+    {
+        get => _playerCamera;
+        set => _playerCamera = _playerCamera == null ? value : _playerCamera;
+    }
     public float UpInput                                    // public readonly WS input
     {
         get => _movementInput.y;
@@ -87,19 +91,16 @@ public sealed class PlayerInputController : MonoBehaviour
     #region Behaviour
 
     // initializing and setting default values
-    private void Awake()
+
+    public void InitializeComponent()
     {
         _movementInput = Vector2.zero;
         _isMoving = false;
 
-        GetWeaponInput();
-
-        _playerCamera = GameObject.FindGameObjectWithTag("MainCamera")?.GetComponent<Camera>();
-        _playerCamera.GetComponent<CameraController>().Target = transform;
-
         if (_playerCamera == null)
             Debug.Log("Player Camera for calculating pointer is not set!!");
 
+        GetWeaponInput();
         GetPointerPosition();
     }
 

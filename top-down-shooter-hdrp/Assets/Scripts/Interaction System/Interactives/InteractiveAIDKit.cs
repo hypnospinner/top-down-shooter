@@ -13,9 +13,9 @@ class InteractiveAIDKit : Interactive
     // interaction
     public override void Interact(GameObject interactor)
     {
-        var playerController = interactor.GetComponent<PlayerController>();
+        var damageReceiver = interactor.GetComponent<PlayerDamageReveiver>();
 
-        if (playerController != null && playerController.ReceiveAID(AIDType))
+        if (damageReceiver != null && damageReceiver.ReceiveAID(AIDType))
             DestroyInteractive();
     }
 
