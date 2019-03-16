@@ -12,9 +12,9 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private float rotationSpeed;
     [SerializeField] private float maxHealth;
     [SerializeField] private PlayerClass playerClass;
+    [SerializeField] private GameObject playerGraphics;
 
     private float _health;
-    private GameObject _playerGraphics;
 
     public float MaxHealth
     { get => maxHealth;  }
@@ -32,8 +32,27 @@ public class PlayerStats : MonoBehaviour
     public float RotationSpeed
     { get => rotationSpeed; }
     public PlayerClass PlayerClass
-    
-{ get => playerClass; set => playerClass = value; }
+    {
+        get => playerClass;
+        set => playerClass = value;
+    }
+    public GameObject PlayerGraphics
+    {
+        get => playerGraphics;
+        set => playerGraphics = value;
+    }
+
+    #endregion
+
+    #region Behaviour
+
+    public void SetGFX(GameObject gfxPrefab)
+    {
+        Destroy(playerGraphics);
+
+        playerGraphics = Instantiate(gfxPrefab, transform, false) as GameObject;
+        playerGraphics.transform.localPosition = Vector3.zero;
+    }
 
     #endregion
 }
