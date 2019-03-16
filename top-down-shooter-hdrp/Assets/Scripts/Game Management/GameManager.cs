@@ -10,7 +10,7 @@ namespace top_down_shooter
         [SerializeField] private GameObject PlayerPrefab;               // instantiated in the bginning of the game
         [SerializeField] private Transform PlayerSpawn;                 // place where player should be instantiated
 
-        private PlayerController _playerController;                     // for storing data about everything that should happen
+        private PlayerManager _playerManager;                     // for storing data about everything that should happen
 
         #endregion
 
@@ -22,9 +22,9 @@ namespace top_down_shooter
             {
                 GameObject player = Instantiate(PlayerPrefab, PlayerSpawn.position, Quaternion.identity) as GameObject;
 
-                _playerController = player.GetComponent<PlayerController>();
+                _playerManager = player.GetComponent<PlayerManager>();
 
-                _playerController.OnPlayerDead +=
+                _playerManager.PlayerState.OnPlayerDead +=
                     () => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
             else Debug.Log("Game Manager disable to build scene");

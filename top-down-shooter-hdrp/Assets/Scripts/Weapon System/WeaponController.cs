@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-class WeaponController : MonoBehaviour
+public class WeaponController : MonoBehaviour
 {
     #region Fields 
 
@@ -9,21 +9,21 @@ class WeaponController : MonoBehaviour
     private int _activeWeaponIndex;                     // index of current active weapon
     private int _weaponCount;                           // amount of weapons currently
 
+    public PlayerInputController InputController
+    {
+        get => _inputController;
+        set => _inputController = _inputController == null ? value : _inputController;
+    }
+
     #endregion
-    
+
     #region Behaviour
 
-    // initializing
-    private void Awake()
+    public void InitializeComponent()
     {
         _activeWeaponIndex = -1;
 
         _weapons = new GameObject[2];
-
-        // initializing weapons
-        _inputController = GetComponentInParent<PlayerInputController>();
-        if (_inputController == null)
-            Debug.LogError("Player Input Conroller is not set!!!");
 
         _weaponCount = transform.childCount;
 

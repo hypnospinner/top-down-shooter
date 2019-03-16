@@ -2,35 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public delegate void PlayerStateHandler();
 
-public class PlayerController : MonoBehaviour, IDamagable
+public class PlayerDamageReveiver : MonoBehaviour, IDamagable
 {
     #region Fields 
 
     // fields
-    [SerializeField] private float MaxHealth;               // top limit for health
-    [SerializeField] private float _movementSpeed;          // how quickly player moves
-    [SerializeField] private float _rotationSpeed;          // how quickly player rotates
-
-    public event PlayerStateHandler OnPlayerDead;           // called when player's health is under 0
-
-    private float _health;                                  // actual health value
     private PlayerInputController _inputController;         // reference to input controller
     private Dictionary<DamageType, int> _AIDKits;           // current amount of AID kits
     private Stack<DamageType> _AIDStack;                    // special queue for continuous damage (maybe it will be better to write custom collection)
+    private PlayerStats _playerStats;
 
-    // properties
-    public float Health { get => _health; }
-    public float MovementSpeed { get => _movementSpeed; }
-    public float RotationSpeed { get => _rotationSpeed; }    
+    public PlayerStats PlayerStats
+    {
+        get => _playerStats;
+        set => _playerStats = _playerStats == null ? value : _playerStats;
+    }
 
     #endregion
 
     #region Behaviour 
 
-    // initializing
-    private void Awake()
+    public void InitializeComponent()
     {
         _AIDStack = new Stack<DamageType>();
         _AIDStack.Push(DamageType.Instant);
@@ -39,12 +32,6 @@ public class PlayerController : MonoBehaviour, IDamagable
         _AIDKits = new Dictionary<DamageType, int>();
         _AIDKits[DamageType.Instant] = 0;
         _AIDKits[DamageType.ContinuousFire] = 0;
-
-        _health = MaxHealth;
-
-        _inputController = GetComponent<PlayerInputController>();
-        if (_inputController == null)
-            Debug.LogError("Player Input Controller is not set!!!");
     }
 
     // controls aid kit usage
@@ -52,20 +39,17 @@ public class PlayerController : MonoBehaviour, IDamagable
     {
         if (_AIDStack.Peek() == DamageType.Instant)
         {
-            if (_health < MaxHealth && _AIDKits[DamageType.Instant] > 0)
+            if (PlayerStats.Health < PlayerStats.MaxHealth && _AIDKits[DamageType.Instant] > 0)
             {
                 _AIDKits[DamageType.Instant]--;
-                _health += MaxHealth / 5;
-                _health = Mathf.Clamp(_health, 0f, MaxHealth);
+                PlayerStats.Health += PlayerStats.MaxHealth / 5;
+                PlayerStats.Health = Mathf.Clamp(PlayerStats.Health, 0f, PlayerStats.MaxHealth);
                 _AIDStack.Pop();
             }
         }
 
         if (Input.GetKeyDown(KeyCode.K))
-            _health -= 10f;
-
-        if (_health <= 0f)
-            OnPlayerDead();
+            PlayerStats.Health -= 10f;
     }
 
     // called when someone attempts to damage player
@@ -74,8 +58,9 @@ public class PlayerController : MonoBehaviour, IDamagable
         switch (damageData.DamageType)
         {
             case DamageType.Instant:
-                _health -= damageData.Damage;
-                _health = Mathf.Clamp(_health, 0f, MaxHealth);
+
+                PlayerStats.Health -= damageData.Damage;
+                PlayerStats.Health = Mathf.Clamp(PlayerStats.Health, 0f, PlayerStats.MaxHealth);
                 break;
             default:
                 if (!_AIDStack.Contains(damageData.DamageType))
@@ -98,12 +83,12 @@ public class PlayerController : MonoBehaviour, IDamagable
             {
                 _AIDStack.Pop();
                 _AIDKits[damageData.DamageType]--;
-                _health += MaxHealth / 5;
-                _health = Mathf.Clamp(_health, 0f, MaxHealth);
+                PlayerStats.Health += PlayerStats.MaxHealth / 5;
+                PlayerStats.Health = Mathf.Clamp(PlayerStats.Health, 0f, PlayerStats.MaxHealth);
                 yield break;
             }
 
-            _health -= damagePerFrame * Time.deltaTime;
+            PlayerStats.Health -= damagePerFrame * Time.deltaTime;
             damageData.Damage -= damagePerFrame * Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }

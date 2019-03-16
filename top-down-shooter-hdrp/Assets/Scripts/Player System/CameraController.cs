@@ -18,14 +18,10 @@ public class CameraController : MonoBehaviour
 
     #region Behaviour
 
-    // initializing
-    private void Awake()
+    public void InitializeComponent()
     {
-        if (target != null)
-        {
-            transform.position = target.position + Offset;
-            transform.LookAt(target);
-        }
+        transform.position = target.position + Offset;
+        transform.LookAt(target);
     }
 
     // moving camera
