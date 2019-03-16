@@ -49,6 +49,7 @@ public class PlayerManager : MonoBehaviour
         
         // initializing ability controller
         _abilityController = GetComponent<AbilityController>();
+        _abilityController.PlayerStats = PlayerState;
 
         _kinematicCharacterController = GetComponent<KinematicCharacterController>();
 

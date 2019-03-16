@@ -586,6 +586,7 @@ MonoBehaviour:
   movementSpeed: 5
   rotationSpeed: 10
   maxHealth: 100
+  playerClass: 1
 --- !u!1 &3101182677943736017
 GameObject:
   m_ObjectHideFlags: 0

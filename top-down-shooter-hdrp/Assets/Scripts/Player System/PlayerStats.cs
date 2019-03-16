@@ -11,9 +11,10 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private float movementSpeed;
     [SerializeField] private float rotationSpeed;
     [SerializeField] private float maxHealth;
+    [SerializeField] private PlayerClass playerClass;
 
     private float _health;
-    private PlayerClass playerClass;
+    private GameObject _playerGraphics;
 
     public float MaxHealth
     { get => maxHealth;  }
