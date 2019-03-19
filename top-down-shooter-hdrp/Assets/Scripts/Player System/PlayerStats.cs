@@ -11,6 +11,7 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private float movementSpeed;
     [SerializeField] private float rotationSpeed;
     [SerializeField] private float maxHealth;
+    [SerializeField] private float energy;
     [SerializeField] private PlayerClass playerClass;
     [SerializeField] private GameObject playerGraphics;
 
@@ -26,6 +27,11 @@ public class PlayerStats : MonoBehaviour
             _health = value;
             if (_health < 0) OnPlayerDead?.Invoke();
         }
+    }
+    public float Energy
+    {
+        get => energy;
+        set => energy = value >= 0f ? value : 0f;
     }
     public float MovementSpeed
     { get => movementSpeed; }

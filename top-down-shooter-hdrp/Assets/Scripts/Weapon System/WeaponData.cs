@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Weapon Data", menuName = "WeaponData")]
-public class WeaponData : ScriptableObject
+public class WeaponData : ScriptableObject, ICloneable
 {
     #region Fields
 
@@ -9,47 +10,41 @@ public class WeaponData : ScriptableObject
     [SerializeField] protected GameObject weaponPrefab;             // prefab of weapon for weapon data
     [SerializeField] protected GameObject projectilePrefab;         // projectile prefab for weapon
     [SerializeField] protected float fireRate;                      // time span between shots
-    [SerializeField] protected float reloadingTime;                 // time for reloading
-    [SerializeField] protected int clipSize;                        // size of clip
-    [SerializeField] protected int clip;                            // current amount of projectiles in clip
-    [SerializeField] protected int startAmmo;                       // on the start it can't have more than these amount of ammo
-    [SerializeField] protected int ammo;                            // current amount of total bullets                                          
+    [SerializeField] protected float energyConsumption;             // energy that weapon requires to perform a shot
 
     // properties
-    public int Ammo
-    {
-        get => ammo;
-        set => ammo = value >= 0 ? value : 0;
-    }
-    public int Clip
-    {
-        get => clip;
-        set => clip = value >= 0 ? value : 0;
-    }
-
     public float FireRate { get => fireRate; }
-    public float ReloadingTime { get => reloadingTime; }
+    public float EnergyConsumption { get => energyConsumption; }
     public GameObject WeaponPrefab { get => weaponPrefab; }
     public GameObject ProjectilePrefab { get => projectilePrefab; }
-    public int ClipSize { get => clipSize; }
-    public int StartAmmo { get => startAmmo; }
 
     #endregion
 
     #region Behaviour
 
-    // for loading data for new weapon data object
-    public void SetWeaponData(WeaponData weaponData)
+    public object Clone()
     {
-        weaponPrefab = weaponData.WeaponPrefab;
-        projectilePrefab = weaponData.ProjectilePrefab;
-        fireRate = weaponData.FireRate;
-        reloadingTime = weaponData.ReloadingTime;
-        clipSize = weaponData.ClipSize;
-        startAmmo = weaponData.StartAmmo;
+        WeaponData weaponData = CreateInstance<WeaponData>();
+        weaponData.fireRate = FireRate;
+        weaponData.weaponPrefab = WeaponPrefab;
+        weaponData.projectilePrefab = ProjectilePrefab;
+        weaponData.energyConsumption = EnergyConsumption;
 
-        ammo = weaponData.Ammo;
-        clip = weaponData.Clip;
+        return weaponData;
+    }
+
+    public override bool Equals(object other)
+    {
+        if (other is WeaponData)
+        {
+            WeaponData weaponData = other as WeaponData;
+
+            return weaponData.FireRate.Equals(FireRate)&&
+                weaponData.EnergyConsumption.Equals(EnergyConsumption) &&
+                weaponData.WeaponPrefab.Equals(WeaponPrefab) &&
+                weaponData.ProjectilePrefab.Equals(ProjectilePrefab);
+        }
+        else return false;
     }
 
     #endregion

@@ -6,20 +6,14 @@ class AssaultRifle : Weapon
     #region Behaviour
 
     // initializing
-    protected override void Awake()
+    public override void InitializeWeapon()
     {
-        base.Awake();
-
-        ReloadInput =
-            () => _inputController.ReloadingButton == ButtonState.Down &&
-            _weaponData.Clip < _weaponData.ClipSize &&
-            _weaponData.Ammo > 0 &&
-            _isReady;
+        base.InitializeWeapon();
 
         FireInput =
             () => (_inputController.LeftMouseButton == ButtonState.Down || 
             _inputController.LeftMouseButton == ButtonState.Hold) && 
-            _weaponData.Clip > 0 && 
+            _manager.Stats.Energy > _weaponData.EnergyConsumption && 
             _isReady;
     }
 
@@ -28,32 +22,11 @@ class AssaultRifle : Weapon
     {
         _isReady = false;
 
-        _weaponData.Clip--;
+        _manager.Stats.Energy -= _weaponData.EnergyConsumption;
 
         Instantiate(_weaponData.ProjectilePrefab, Muzzle.position, Muzzle.rotation);
 
         yield return new WaitForSeconds(_weaponData.FireRate);
-
-        _isReady = true;
-    }
-
-    // reloading
-    protected override IEnumerator Reload()
-    {
-        _isReady = false;
-
-        yield return new WaitForSeconds(_weaponData.ReloadingTime);
-
-        if (_weaponData.Ammo > _weaponData.ClipSize)
-        {
-            _weaponData.Ammo -= _weaponData.ClipSize;
-            _weaponData.Clip = _weaponData.ClipSize;
-        }
-        else
-        {
-            _weaponData.Clip = _weaponData.Ammo;
-            _weaponData.Ammo = 0;
-        }
 
         _isReady = true;
     }

@@ -464,6 +464,7 @@ MonoBehaviour:
   movementSpeed: 5
   rotationSpeed: 10
   maxHealth: 100
+  energy: 100
   playerClass: 0
   playerGraphics: {fileID: 237601145022398863}
 --- !u!1 &3101182677943736017

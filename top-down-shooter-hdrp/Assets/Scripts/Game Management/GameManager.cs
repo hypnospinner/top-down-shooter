@@ -24,7 +24,7 @@ namespace top_down_shooter
 
                 _playerManager = player.GetComponent<PlayerManager>();
 
-                _playerManager.PlayerState.OnPlayerDead +=
+                _playerManager.Stats.OnPlayerDead +=
                     () => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
             else Debug.Log("Game Manager disable to build scene");

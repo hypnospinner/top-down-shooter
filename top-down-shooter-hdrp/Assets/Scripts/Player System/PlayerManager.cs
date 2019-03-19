@@ -25,7 +25,7 @@ public class PlayerManager : MonoBehaviour
         { get => _abilityController; }
     public KinematicCharacterController KinematicCharacterController
         { get => _kinematicCharacterController;  }
-    public PlayerStats PlayerState
+    public PlayerStats Stats
         { get => _playerStats; }
     public WeaponController WeaponController
         { get => _weaponController; }
@@ -49,7 +49,7 @@ public class PlayerManager : MonoBehaviour
         
         // initializing ability controller
         _abilityController = GetComponent<AbilityController>();
-        _abilityController.PlayerStats = PlayerState;
+        _abilityController.PlayerStats = Stats;
 
         _kinematicCharacterController = GetComponent<KinematicCharacterController>();
 
@@ -82,16 +82,17 @@ public class PlayerManager : MonoBehaviour
         _playerMovementController = GetComponent<PlayerMovementController>();
         _playerMovementController.PlayerInput = PlayerInputController;
         _playerMovementController.CharacterController = KinematicCharacterController;
-        _playerMovementController.PlayerStats = PlayerState;
+        _playerMovementController.PlayerStats = Stats;
 
         // initializing weapon controller
         _weaponController = GetComponentInChildren<WeaponController>();
         _weaponController.InputController = PlayerInputController;
+        _weaponController.Manager = this;
         _weaponController.InitializeComponent();
 
         // initializing damage receiver
         _playerDamageReceiver = GetComponent<PlayerDamageReveiver>();
-        _playerDamageReceiver.PlayerStats = PlayerState;
+        _playerDamageReceiver.PlayerStats = Stats;
         _playerDamageReceiver.InitializeComponent();
     }
 

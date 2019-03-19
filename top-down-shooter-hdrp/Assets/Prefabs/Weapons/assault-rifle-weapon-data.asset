@@ -17,8 +17,4 @@ MonoBehaviour:
   projectilePrefab: {fileID: 8735313740739425132, guid: decfdf5fbd0123b4c992f3b225625331,
     type: 3}
   fireRate: 0.2
-  reloadingTime: 1.7
-  clipSize: 30
-  clip: 30
-  startAmmo: 150
-  ammo: 150
+  energyConsumption: 2
