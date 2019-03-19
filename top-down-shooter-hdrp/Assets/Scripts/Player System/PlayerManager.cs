@@ -5,17 +5,17 @@ public class PlayerManager : MonoBehaviour
     #region Fields
 
     // privates
-    private PlayerInputController _playerInputController;
-    private PlayerMovementController _playerMovementController;
-    private WeaponController _weaponController;
-    private AbilityController _abilityController;
-    private KinematicCharacterController _kinematicCharacterController;
-    private PlayerDamageReveiver _playerDamageReceiver;
-    private PlayerStats _playerStats;
-    private CameraController _cameraController;
-    private Transform _cameraTransform;
-    private Camera _playerCamera;
-
+    private PlayerInputController _playerInputController;                   // encapsulates player inp
+    private PlayerMovementController _playerMovementController;             // handles movement
+    private WeaponController _weaponController;                             // handles weapon
+    private AbilityController _abilityController;                           // handles ability 
+    private KinematicCharacterController _kinematicCharacterController;     // movememnt physics calculations
+    private PlayerDamageReveiver _playerDamageReceiver;                     // encapsulates damage receiving
+    private PlayerStats _stats;                                             // handles player stats
+    private CameraController _cameraController;                             // controller for camera (stalks player)
+    private Transform _cameraTransform;                                     // camera game object transform
+    private Camera _playerCamera;                                           // camera comoponent that look on player
+                                                                            
     // properties
     public PlayerInputController PlayerInputController
         { get => _playerInputController; }
@@ -26,7 +26,7 @@ public class PlayerManager : MonoBehaviour
     public KinematicCharacterController KinematicCharacterController
         { get => _kinematicCharacterController;  }
     public PlayerStats Stats
-        { get => _playerStats; }
+        { get => _stats; }
     public WeaponController WeaponController
         { get => _weaponController; }
     public Transform CameraTransform
@@ -42,10 +42,11 @@ public class PlayerManager : MonoBehaviour
 
     #region Behaviour
 
+    // initializes player components
     private void Awake()
     {
         // getting player stats controller
-        _playerStats = GetComponent<PlayerStats>();
+        _stats = GetComponent<PlayerStats>();
         
         // initializing ability controller
         _abilityController = GetComponent<AbilityController>();
@@ -92,7 +93,7 @@ public class PlayerManager : MonoBehaviour
 
         // initializing damage receiver
         _playerDamageReceiver = GetComponent<PlayerDamageReveiver>();
-        _playerDamageReceiver.PlayerStats = Stats;
+        _playerDamageReceiver.Stats = Stats;
         _playerDamageReceiver.InitializeComponent();
     }
 

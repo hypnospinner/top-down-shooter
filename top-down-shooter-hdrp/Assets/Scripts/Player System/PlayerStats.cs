@@ -6,17 +6,19 @@ public class PlayerStats : MonoBehaviour
 {
     #region Fields
 
-    public PlayerStateHandler OnPlayerDead;
+    public PlayerStateHandler OnPlayerDead;                 // called to inform game that player is dead by now
+                                                            
+    [SerializeField] private float movementSpeed;           // how quickly player moves
+    [SerializeField] private float rotationSpeed;           // how quickly player rotates
+    [SerializeField] private float maxHealth;               // max value for player health
+    // TODO: should be encapulated
+    [SerializeField] private float energy;                  // current player nenergy weapon 
+    [SerializeField] private PlayerClass playerClass;       // player type
+    [SerializeField] private GameObject playerGraphics;     // graphics child game object of player
+                                                            
+    private float _health;                                  // current health value
 
-    [SerializeField] private float movementSpeed;
-    [SerializeField] private float rotationSpeed;
-    [SerializeField] private float maxHealth;
-    [SerializeField] private float energy;
-    [SerializeField] private PlayerClass playerClass;
-    [SerializeField] private GameObject playerGraphics;
-
-    private float _health;
-
+    // properties
     public float MaxHealth
     { get => maxHealth;  }
     public float Health
@@ -52,6 +54,7 @@ public class PlayerStats : MonoBehaviour
 
     #region Behaviour
 
+    // resetting GFX
     public void SetGFX(GameObject gfxPrefab)
     {
         Destroy(playerGraphics);

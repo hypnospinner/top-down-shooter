@@ -8,6 +8,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float MovementSpeed;   // camera movement speed
     [SerializeField] private Vector3 Offset;        // relative camera position from target
 
+    // properties
     public Transform Target
     {
         get => target;

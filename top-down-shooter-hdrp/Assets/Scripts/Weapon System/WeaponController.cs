@@ -26,6 +26,7 @@ public class WeaponController : MonoBehaviour
 
     #region Behaviour
 
+    // component initialization called by Manager
     public void InitializeComponent()
     {
         return;

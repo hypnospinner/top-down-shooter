@@ -22,6 +22,7 @@ public class WeaponData : ScriptableObject, ICloneable
 
     #region Behaviour
 
+    // for memberwise cloning
     public object Clone()
     {
         WeaponData weaponData = CreateInstance<WeaponData>();
@@ -33,6 +34,7 @@ public class WeaponData : ScriptableObject, ICloneable
         return weaponData;
     }
 
+    // value equality check
     public override bool Equals(object other)
     {
         if (other is WeaponData)

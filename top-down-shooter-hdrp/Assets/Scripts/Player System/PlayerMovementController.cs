@@ -11,6 +11,7 @@ public class PlayerMovementController : MonoBehaviour
     private PlayerStats _playerStats;                               // reference on player data and values
     private Vector3 _lookDirection;                                 // where player should look at
 
+    // properties
     public Vector3 LookDirection { get => _lookDirection; }
     public KinematicCharacterController CharacterController
     {

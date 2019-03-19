@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
+// TODO: handle null reference exception when picking AID kit
 public class PlayerDamageReveiver : MonoBehaviour, IDamagable
 {
     #region Fields 
@@ -11,12 +11,12 @@ public class PlayerDamageReveiver : MonoBehaviour, IDamagable
     private PlayerInputController _inputController;         // reference to input controller
     private Dictionary<DamageType, int> _AIDKits;           // current amount of AID kits
     private Stack<DamageType> _AIDStack;                    // special queue for continuous damage (maybe it will be better to write custom collection)
-    private PlayerStats _playerStats;
+    private PlayerStats _stats;                              // reference to player state values
 
-    public PlayerStats PlayerStats
+    public PlayerStats Stats
     {
-        get => _playerStats;
-        set => _playerStats = _playerStats == null ? value : _playerStats;
+        get => _stats;
+        set => _stats = _stats == null ? value : _stats;
     }
 
     #endregion
@@ -39,17 +39,17 @@ public class PlayerDamageReveiver : MonoBehaviour, IDamagable
     {
         if (_AIDStack.Peek() == DamageType.Instant)
         {
-            if (PlayerStats.Health < PlayerStats.MaxHealth && _AIDKits[DamageType.Instant] > 0)
+            if (Stats.Health < Stats.MaxHealth && _AIDKits[DamageType.Instant] > 0)
             {
                 _AIDKits[DamageType.Instant]--;
-                PlayerStats.Health += PlayerStats.MaxHealth / 5;
-                PlayerStats.Health = Mathf.Clamp(PlayerStats.Health, 0f, PlayerStats.MaxHealth);
+                Stats.Health += Stats.MaxHealth / 5;
+                Stats.Health = Mathf.Clamp(Stats.Health, 0f, Stats.MaxHealth);
                 _AIDStack.Pop();
             }
         }
 
         if (Input.GetKeyDown(KeyCode.K))
-            PlayerStats.Health -= 10f;
+            Stats.Health -= 10f;
     }
 
     // called when someone attempts to damage player
@@ -59,8 +59,8 @@ public class PlayerDamageReveiver : MonoBehaviour, IDamagable
         {
             case DamageType.Instant:
 
-                PlayerStats.Health -= damageData.Damage;
-                PlayerStats.Health = Mathf.Clamp(PlayerStats.Health, 0f, PlayerStats.MaxHealth);
+                Stats.Health -= damageData.Damage;
+                Stats.Health = Mathf.Clamp(Stats.Health, 0f, Stats.MaxHealth);
                 break;
             default:
                 if (!_AIDStack.Contains(damageData.DamageType))
@@ -83,12 +83,12 @@ public class PlayerDamageReveiver : MonoBehaviour, IDamagable
             {
                 _AIDStack.Pop();
                 _AIDKits[damageData.DamageType]--;
-                PlayerStats.Health += PlayerStats.MaxHealth / 5;
-                PlayerStats.Health = Mathf.Clamp(PlayerStats.Health, 0f, PlayerStats.MaxHealth);
+                Stats.Health += Stats.MaxHealth / 5;
+                Stats.Health = Mathf.Clamp(Stats.Health, 0f, Stats.MaxHealth);
                 yield break;
             }
 
-            PlayerStats.Health -= damagePerFrame * Time.deltaTime;
+            Stats.Health -= damagePerFrame * Time.deltaTime;
             damageData.Damage -= damagePerFrame * Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }

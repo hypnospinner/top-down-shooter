@@ -9,9 +9,8 @@ public abstract class Weapon : MonoBehaviour
 
     [SerializeField] protected Transform Muzzle;            // place where projectiles are instantiated
     [SerializeField] protected WeaponData _weaponData;      // stores state and parameters of weapon
-                                                            
-    protected InputHandler FireInput;                       // logical equation for deciding wether we should fire or not
 
+    protected InputHandler FireInput;                       // logical equation for deciding wether we should fire or not
     protected PlayerInputController _inputController;       // input handler reference
     protected bool _isReady;                                // state of the weapon
     protected PlayerManager _manager;                       // reference to player manager component
