@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(SphereCollider))]
@@ -6,12 +7,12 @@ class Energy : MonoBehaviour
 {
     #region Fields 
 
-    [SerializeField] private float StoredEnergy;
-    [SerializeField] private float MagnetSpeed;
-
-    private SphereCollider _triggerMagneticZone;
-    private bool _isMagniting;
-    private const float _magnetikDistance = 2f;
+    [SerializeField] private float StoredEnergy;    // how much energy we will add
+    [SerializeField] private float MagnetSpeed;     // 
+                                                    
+    private SphereCollider _triggerMagneticZone;    //
+    private bool _isMagniting;                      //
+    private const float _magnetikDistance = 2f;     //
 
     #endregion
 
@@ -41,9 +42,14 @@ class Energy : MonoBehaviour
 
     private IEnumerator MagnetToPlayer(Transform playerTarget)
     {
+        Func<float, float> f = t => t * t;
+        float time = 0f;
+
         while (Vector3.Distance(transform.position, playerTarget.position) > .3f)
         {
-            transform.position = Vector3.Slerp(transform.position, playerTarget.position, MagnetSpeed * Time.deltaTime);
+            transform.position += (playerTarget.position - transform.position).normalized 
+                * MagnetSpeed 
+                * f(time += Time.fixedDeltaTime);
             yield return null;
         }
 
