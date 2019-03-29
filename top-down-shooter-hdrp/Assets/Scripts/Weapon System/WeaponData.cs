@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Weapon Data", menuName = "WeaponData")]
+[CreateAssetMenu(fileName = "New Weapon Data", menuName = "WeaponData/Basic")]
 public class WeaponData : ScriptableObject, ICloneable
 {
     #region Fields
@@ -23,15 +23,15 @@ public class WeaponData : ScriptableObject, ICloneable
     #region Behaviour
 
     // for memberwise cloning
-    public object Clone()
+    public virtual object Clone()
     {
-        WeaponData weaponData = CreateInstance<WeaponData>();
-        weaponData.fireRate = FireRate;
-        weaponData.weaponPrefab = WeaponPrefab;
-        weaponData.projectilePrefab = ProjectilePrefab;
-        weaponData.energyConsumption = EnergyConsumption;
+        WeaponData clone = CreateInstance<WeaponData>();
+        clone.fireRate = FireRate;
+        clone.weaponPrefab = WeaponPrefab;
+        clone.projectilePrefab = ProjectilePrefab;
+        clone.energyConsumption = EnergyConsumption;
 
-        return weaponData;
+        return clone;
     }
 
     // value equality check
@@ -45,6 +45,57 @@ public class WeaponData : ScriptableObject, ICloneable
                 weaponData.EnergyConsumption.Equals(EnergyConsumption) &&
                 weaponData.WeaponPrefab.Equals(WeaponPrefab) &&
                 weaponData.ProjectilePrefab.Equals(ProjectilePrefab);
+        }
+        else return false;
+    }
+
+    #endregion
+}
+
+[CreateAssetMenu(fileName ="New Shogun Weapon Data", menuName = "WeaponData/Shotgun")]
+public class ShotgunWeaponData : WeaponData
+{
+    #region Fields
+
+    [SerializeField] private int fireDensity;                           // how many bullets should be spawned when player shots
+    [SerializeField] private float positionScatter;                     // how bullet should be moved when shooting
+    [SerializeField] private float rotationScatter;                     // max angle that bullet can rotate
+
+    public int FireDensity { get => fireDensity; }
+    public float PositionScatter { get => positionScatter; }
+    public float RotationScatter { get => rotationScatter; }
+
+    #endregion
+
+    #region Behaviour
+
+    public override object Clone()
+    {
+        ShotgunWeaponData clone = CreateInstance<ShotgunWeaponData>();
+        clone.fireRate = FireRate;
+        clone.weaponPrefab = WeaponPrefab;
+        clone.projectilePrefab = ProjectilePrefab;
+        clone.energyConsumption = EnergyConsumption;
+        clone.fireDensity = FireDensity;
+        clone.positionScatter = PositionScatter;
+        clone.rotationScatter = RotationScatter;
+
+        return clone;
+    }
+
+    public override bool Equals(object other)
+    {
+        if (other is ShotgunWeaponData)
+        {
+            var weaponData = other as ShotgunWeaponData;
+
+            return weaponData.FireRate.Equals(FireRate) &&
+                weaponData.EnergyConsumption.Equals(EnergyConsumption) &&
+                weaponData.WeaponPrefab.Equals(WeaponPrefab) &&
+                weaponData.ProjectilePrefab.Equals(ProjectilePrefab) &&
+                weaponData.FireDensity.Equals(FireDensity) && 
+                weaponData.PositionScatter.Equals(PositionScatter) &&
+                weaponData.RotationScatter.Equals(RotationScatter);
         }
         else return false;
     }

@@ -27,26 +27,7 @@ public class WeaponController : MonoBehaviour
     #region Behaviour
 
     // component initialization called by Manager
-    public void InitializeComponent()
-    {
-        return;
-        //_activeWeaponIndex = -1;
-
-        //_weapons = new GameObject[2];
-
-        //_weaponCount = transform.childCount;
-
-        //for(int i = 0; i < _weaponCount; i++)
-        //{
-            //_weapons[i] = transform.GetChild(i).gameObject;
-
-            //if(i == 0)
-                //_activeWeaponIndex = 0;
-
-            //if (i == 1)
-                //_weapons[i].SetActive(false);
-        //}
-    }
+    public void InitializeComponent() { return; }
 
     // getting new weapon
     public WeaponData PickWeapon(WeaponData weaponData)

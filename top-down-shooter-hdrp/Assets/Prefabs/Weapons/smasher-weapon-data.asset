@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: smasher-weapon-data
+  m_EditorClassIdentifier: Assembly-CSharp::ShotgunWeaponData
+  weaponPrefab: {fileID: 1614537721672004802, guid: 77e63b137c1b56945a5296d933ba8ed9,
+    type: 3}
+  projectilePrefab: {fileID: 8735313740739425132, guid: decfdf5fbd0123b4c992f3b225625331,
+    type: 3}
+  fireRate: 3
+  energyConsumption: 10
+  fireDensity: 8
+  positionScatter: 0.1
+  rotationScatter: 15
