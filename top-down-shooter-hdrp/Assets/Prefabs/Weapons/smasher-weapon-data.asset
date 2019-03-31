@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShotgunWeaponData
   weaponPrefab: {fileID: 1614537721672004802, guid: 77e63b137c1b56945a5296d933ba8ed9,
     type: 3}
-  projectilePrefab: {fileID: 8735313740739425132, guid: decfdf5fbd0123b4c992f3b225625331,
+  projectilePrefab: {fileID: 7294059647942598568, guid: 3428bdee2aa48444b994f661b9d76474,
     type: 3}
   fireRate: 3
   energyConsumption: 10

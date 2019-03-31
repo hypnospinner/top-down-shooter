@@ -5,19 +5,19 @@ public class ProjectileController : MonoBehaviour
 {
     #region Fields 
 
-    [SerializeField] private float AttackDistance;      // distance that projectile will cover (afterwards it will be destroyed)
-    [SerializeField] private float ProjectileSpeed;     // projectile movement speed (using racast for accuracy on high speed)
-    [SerializeField] private LayerMask AttackMask;      // layer for hitbox colliders
+    [SerializeField] protected float AttackDistance;      // distance that projectile will cover (afterwards it will be destroyed)
+    [SerializeField] protected float ProjectileSpeed;     // projectile movement speed (using racast for accuracy on high speed)
+    [SerializeField] protected LayerMask AttackMask;      // layer for hitbox colliders
 
-    private float _stepMoveDistance;                    // precalculated distance of movement on 1 frame
-    private DamageSender _damageSender;                 // stores data about damage
+    protected float _stepMoveDistance;                    // precalculated distance of movement on 1 frame
+    protected DamageSender _damageSender;                 // stores data about damage
 
     #endregion
 
     #region Behaviour
 
     // initializing
-    private void Awake()
+    protected virtual void Awake()
     {
         _damageSender = GetComponent<DamageSender>();
         _stepMoveDistance = ProjectileSpeed * Time.fixedDeltaTime;
@@ -25,7 +25,7 @@ public class ProjectileController : MonoBehaviour
     }
 
     // checking for hit
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         RaycastHit hit;
 
