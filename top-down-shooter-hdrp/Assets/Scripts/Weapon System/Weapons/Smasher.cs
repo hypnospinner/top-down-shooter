@@ -1,10 +1,15 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Smasher : Weapon
 {
+    #region Fields
+
     private ShotgunWeaponData _sWeaponData;
+
+    #endregion
+
+    #region Behaviour
 
     public override void InitializeWeapon()
     {
@@ -44,4 +49,6 @@ public class Smasher : Weapon
 
         _isReady = true;
     }
+
+    #endregion
 }

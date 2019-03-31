@@ -3,7 +3,13 @@ using UnityEngine;
 
 public class Puncher : Weapon
 {
+    #region Fields
+
     private ShotgunWeaponData _sWeaponData;
+
+    #endregion
+
+    #region Behaviour
 
     public override void InitializeWeapon()
     {
@@ -44,4 +50,6 @@ public class Puncher : Weapon
 
         _isReady = true;
     }
+
+    #endregion
 }
