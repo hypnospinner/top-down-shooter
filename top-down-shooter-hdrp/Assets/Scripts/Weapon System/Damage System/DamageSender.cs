@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-class DamageSender : MonoBehaviour
+public class DamageSender : MonoBehaviour
 {
     #region Fields
 

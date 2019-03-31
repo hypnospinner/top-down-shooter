@@ -10,7 +10,7 @@ namespace top_down_shooter
         [SerializeField] private GameObject PlayerPrefab;               // instantiated in the bginning of the game
         [SerializeField] private Transform PlayerSpawn;                 // place where player should be instantiated
 
-        private PlayerManager _playerManager;                     // for storing data about everything that should happen
+        private PlayerManager _playerManager;                           // for storing data about everything that should happen
 
         #endregion
 
