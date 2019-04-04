@@ -18,3 +18,4 @@ MonoBehaviour:
     type: 3}
   fireRate: 0.4
   energyConsumption: 1
+  weaponIcon: {fileID: 21300000, guid: 4f5e2e47a92e1f44cb0be6957b7161b7, type: 3}

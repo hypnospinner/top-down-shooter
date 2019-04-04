@@ -18,6 +18,7 @@ MonoBehaviour:
     type: 3}
   fireRate: 3
   energyConsumption: 10
+  weaponIcon: {fileID: 21300000, guid: 2875f7577c07b8c468e31621a0a21cd4, type: 3}
   fireDensity: 8
   positionScatter: 0.1
   rotationScatter: 5
