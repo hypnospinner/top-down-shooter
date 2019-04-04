@@ -20,4 +20,4 @@ MonoBehaviour:
   energyConsumption: 10
   fireDensity: 8
   positionScatter: 0.1
-  rotationScatter: 15
+  rotationScatter: 5

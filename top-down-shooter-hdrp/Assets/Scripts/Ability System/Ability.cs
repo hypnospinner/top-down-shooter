@@ -1,15 +1,17 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class Ability : MonoBehaviour
 {
     #region Fields 
 
     [SerializeField] private float staminaConsumption;      // how much stamina ability needs to be executed
-    [SerializeField] private PlayerClass playerClass;      // player class that can pick up this ability
+    [SerializeField] private PlayerClass playerClass;       // player class that can pick up this ability
+    [SerializeField] private Sprite abilityIcon;            // what is displayed when player picked up ability
     protected InputHandler AbilityTrigger;                  // describes when we should call ability Execution
 
-    public PlayerClass PlayerClass
-    { get => playerClass; }
+    public PlayerClass PlayerClass => playerClass;
+    public Sprite AbilityIcon => abilityIcon;
 
     #endregion
 

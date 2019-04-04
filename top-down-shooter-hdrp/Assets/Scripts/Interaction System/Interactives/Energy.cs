@@ -7,12 +7,12 @@ class Energy : MonoBehaviour
 {
     #region Fields 
 
-    [SerializeField] private float StoredEnergy;    // how much energy we will add
-    [SerializeField] private float MagnetSpeed;     // 
+    [SerializeField] private int StoredEnergy;      // how much energy we will add
+    [SerializeField] private float MagnetSpeed;     // how quickly object moves towards the player
                                                     
-    private SphereCollider _triggerMagneticZone;    //
-    private bool _isMagniting;                      //
-    private const float _magnetikDistance = 2f;     //
+    private SphereCollider _triggerMagneticZone;    // reference to collider that triggers when player enters to it
+    private bool _isMagniting;                      // energy state
+    private const float _magnetikDistance = 2f;     // radius of trigger zone
 
     #endregion
 
