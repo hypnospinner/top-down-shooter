@@ -8,13 +8,14 @@ public class PlayerStats : MonoBehaviour
     #region Fields
 
     public PlayerStateHandler OnPlayerDead;                 // called to inform game that player is dead by now
-    public PlayerPropertyChanged OnHealthChanged;
-    public PlayerPropertyChanged OnEnergyChanged;
+    public PlayerStateHandler OnPlayerClassChanged;         // informs that player class is changed
+    public PlayerPropertyChanged OnHealthChanged;           // informs that health value is changed
+    public PlayerPropertyChanged OnEnergyChanged;           // informs that energy value is changed
 
     [SerializeField] private float movementSpeed;           // how quickly player moves
     [SerializeField] private float rotationSpeed;           // how quickly player rotates
     [SerializeField] private float maxHealth;               // max value for player health
-    [SerializeField] private float StartEnergy;
+    [SerializeField] private float StartEnergy;             // how much energy player should have on start
     [SerializeField] private PlayerClass playerClass;       // player type
     [SerializeField] private GameObject playerGraphics;     // graphics child game object of player
                                                             
@@ -47,7 +48,14 @@ public class PlayerStats : MonoBehaviour
     public PlayerClass PlayerClass
     {
         get => playerClass;
-        set => playerClass = value;
+        set
+        {
+            if(playerClass != value)
+            {
+                playerClass = value;
+                OnPlayerClassChanged?.Invoke();
+            }
+        }
     }
 
     #endregion

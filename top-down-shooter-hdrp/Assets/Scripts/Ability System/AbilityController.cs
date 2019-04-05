@@ -7,6 +7,8 @@ public class AbilityController : MonoBehaviour
 {
     #region Fields
 
+    [SerializeField] private Sprite DefaultAbilitySprite;
+
     private bool _hasAbilty;                            // defines wether player has abilit or not
     private GameObject _abilityGameObject;              // reference to current picked up ability
     private PlayerStats _playerStats;                   // reference player stats component
@@ -81,6 +83,8 @@ public class AbilityController : MonoBehaviour
             Destroy(_abilityGameObject);
 
         _hasAbilty = false;
+
+        OnAbilityChanged?.Invoke(DefaultAbilitySprite);
     }
     #endregion
 }

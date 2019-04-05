@@ -449,6 +449,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e1693ab2ffde3048ae1235b96bf2264, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DefaultAbilitySprite: {fileID: 21300000, guid: 5392f2089893a9d408aa7362df014a7d,
+    type: 3}
 --- !u!114 &7676650248105716920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -464,7 +466,7 @@ MonoBehaviour:
   movementSpeed: 5
   rotationSpeed: 10
   maxHealth: 100
-  energy: 100
+  StartEnergy: 0
   playerClass: 0
   playerGraphics: {fileID: 237601145022398863}
 --- !u!1 &3101182677943736017

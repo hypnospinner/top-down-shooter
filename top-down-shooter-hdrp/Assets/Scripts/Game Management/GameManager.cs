@@ -29,14 +29,15 @@ namespace top_down_shooter
 
                 _playerManager.Stats.OnPlayerDead +=
                     () => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
                 _playerManager.Stats.OnEnergyChanged += _UIManager.UpdateEnergy;
                 _playerManager.Stats.OnHealthChanged += _UIManager.UpdateHealth;
+                _playerManager.Stats.OnPlayerClassChanged += _playerManager.AbilityController.DropAbility;
 
                 _playerManager.WeaponController.OnWeaponChanged += _UIManager.SetWeaponIcon;
                 _playerManager.AbilityController.OnAbilityChanged += _UIManager.SetAbilityIcon;
-
             }
-            else Debug.Log("Game Manager disable to build scene");
+            else Debug.Log("Game Manager enable to build scene");
         }
 
         #endregion
