@@ -3,16 +3,16 @@ using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(SphereCollider))]
-class Energy : MonoBehaviour
+class InteractiveEnergy : MonoBehaviour
 {
     #region Fields 
 
-    [SerializeField] private int StoredEnergy;      // how much energy we will add
-    [SerializeField] private float MagnetSpeed;     // how quickly object moves towards the player
+    [SerializeField] private float StoredEnergy;    // how much energy we will add
+    [SerializeField] private float MagnetSpeed;     // how quickly object pulls to player
                                                     
-    private SphereCollider _triggerMagneticZone;    // reference to collider that triggers when player enters to it
-    private bool _isMagniting;                      // energy state
-    private const float _magnetikDistance = 2f;     // radius of trigger zone
+    private SphereCollider _triggerMagneticZone;    // reference to a trigger zone that tracks player
+    private bool _isMagniting;                      // whether object is magneting to player or not
+    private const float _magnetikDistance = 2f;     // trigger zone radius
 
     #endregion
 
@@ -29,12 +29,8 @@ class Energy : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.name + " entered collider zone");
-
         if(other.tag == "Player" && !_isMagniting)
         {
-            Debug.Log("magneting to player");
-
             _isMagniting = true;
             StartCoroutine(MagnetToPlayer(other.transform));
         }
@@ -54,6 +50,8 @@ class Energy : MonoBehaviour
         }
 
         playerTarget.GetComponent<PlayerManager>().Stats.Energy += StoredEnergy;
+
+        // TODO: insert consumption vfx
 
         Destroy(gameObject);
 
