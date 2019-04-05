@@ -47,7 +47,8 @@ public class PlayerManager : MonoBehaviour
     {
         // getting player stats controller
         _stats = GetComponent<PlayerStats>();
-        
+        _stats.InitializeComponent();
+
         // initializing ability controller
         _abilityController = GetComponent<AbilityController>();
         _abilityController.PlayerStats = Stats;

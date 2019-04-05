@@ -44,5 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   staminaConsumption: 0
+  playerClass: 0
+  abilityIcon: {fileID: 21300000, guid: a7f8424151d994c43a973ed62e80d6cd, type: 3}
   DashTime: 0.2
   DashDistance: 5

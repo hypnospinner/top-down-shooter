@@ -1,12 +1,19 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
+
+public delegate void AbilityStateChanged(Sprite icon);
 
 public class AbilityController : MonoBehaviour
 {
     #region Fields
 
+    [SerializeField] private Sprite DefaultAbilitySprite;
+
     private bool _hasAbilty;                            // defines wether player has abilit or not
     private GameObject _abilityGameObject;              // reference to current picked up ability
     private PlayerStats _playerStats;                   // reference player stats component
+
+    public AbilityStateChanged OnAbilityChanged;
 
     public PlayerStats PlayerStats
     {
@@ -42,6 +49,8 @@ public class AbilityController : MonoBehaviour
                 if (ability != null)
                     ability.InitializeAbility(gameObject);
 
+                OnAbilityChanged?.Invoke(ability.AbilityIcon);
+
                 return null;
             }
             else
@@ -56,6 +65,8 @@ public class AbilityController : MonoBehaviour
                 // initializing picked up ability with player gameObject
                 if (ability != null)
                     ability.InitializeAbility(gameObject);
+
+                OnAbilityChanged?.Invoke(ability.AbilityIcon);
 
                 // returning previous ability to be stored in interactive
                 return temp;
@@ -72,6 +83,8 @@ public class AbilityController : MonoBehaviour
             Destroy(_abilityGameObject);
 
         _hasAbilty = false;
+
+        OnAbilityChanged?.Invoke(DefaultAbilitySprite);
     }
     #endregion
 }

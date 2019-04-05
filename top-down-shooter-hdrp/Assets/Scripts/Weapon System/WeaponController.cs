@@ -1,8 +1,12 @@
 ﻿using UnityEngine;
 
+public delegate void WeaponEventHandler(WeaponData newWeapon);
+
 public class WeaponController : MonoBehaviour
 {
     #region Fields 
+
+    public WeaponEventHandler OnWeaponChanged;
 
     // fields
     private PlayerInputController _inputController;     // reference to input controller
@@ -46,6 +50,8 @@ public class WeaponController : MonoBehaviour
             weapon.Manager = _manager;
             weapon.InitializeWeapon();
 
+            OnWeaponChanged?.Invoke(weapon.WeaponData);
+
             return null;
         }
         else
@@ -68,6 +74,8 @@ public class WeaponController : MonoBehaviour
             weapon.Manager = _manager;
             weapon.InputController = _inputController;
             weapon.InitializeWeapon();
+
+            OnWeaponChanged?.Invoke(weapon.WeaponData);
 
             return dropedWeaponData;
         }

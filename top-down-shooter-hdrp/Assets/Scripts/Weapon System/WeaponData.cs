@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "New Weapon Data", menuName = "WeaponData/Basic")]
 public class WeaponData : ScriptableObject, ICloneable
@@ -11,12 +12,14 @@ public class WeaponData : ScriptableObject, ICloneable
     [SerializeField] protected GameObject projectilePrefab;         // projectile prefab for weapon
     [SerializeField] protected float fireRate;                      // time span between shots
     [SerializeField] protected float energyConsumption;             // energy that weapon requires to perform a shot
+    [SerializeField] protected Sprite weaponIcon;                    // weapon sign
 
     // properties
-    public float FireRate { get => fireRate; }
-    public float EnergyConsumption { get => energyConsumption; }
-    public GameObject WeaponPrefab { get => weaponPrefab; }
-    public GameObject ProjectilePrefab { get => projectilePrefab; }
+    public float FireRate => fireRate;
+    public float EnergyConsumption => energyConsumption;
+    public GameObject WeaponPrefab => weaponPrefab;
+    public GameObject ProjectilePrefab => projectilePrefab;
+    public Sprite WeaponIcon => weaponIcon;
 
     #endregion
 
@@ -30,6 +33,7 @@ public class WeaponData : ScriptableObject, ICloneable
         clone.weaponPrefab = WeaponPrefab;
         clone.projectilePrefab = ProjectilePrefab;
         clone.energyConsumption = EnergyConsumption;
+        clone.weaponIcon = WeaponIcon;
 
         return clone;
     }
@@ -44,7 +48,8 @@ public class WeaponData : ScriptableObject, ICloneable
             return weaponData.FireRate.Equals(FireRate)&&
                 weaponData.EnergyConsumption.Equals(EnergyConsumption) &&
                 weaponData.WeaponPrefab.Equals(WeaponPrefab) &&
-                weaponData.ProjectilePrefab.Equals(ProjectilePrefab);
+                weaponData.ProjectilePrefab.Equals(ProjectilePrefab) &&
+                weaponData.WeaponIcon.Equals(WeaponIcon);
         }
         else return false;
     }
@@ -76,6 +81,7 @@ public class ShotgunWeaponData : WeaponData
         clone.weaponPrefab = WeaponPrefab;
         clone.projectilePrefab = ProjectilePrefab;
         clone.energyConsumption = EnergyConsumption;
+        clone.weaponIcon = WeaponIcon;
         clone.fireDensity = FireDensity;
         clone.positionScatter = PositionScatter;
         clone.rotationScatter = RotationScatter;
@@ -93,6 +99,7 @@ public class ShotgunWeaponData : WeaponData
                 weaponData.EnergyConsumption.Equals(EnergyConsumption) &&
                 weaponData.WeaponPrefab.Equals(WeaponPrefab) &&
                 weaponData.ProjectilePrefab.Equals(ProjectilePrefab) &&
+                weaponData.WeaponIcon.Equals(WeaponIcon) &&
                 weaponData.FireDensity.Equals(FireDensity) && 
                 weaponData.PositionScatter.Equals(PositionScatter) &&
                 weaponData.RotationScatter.Equals(RotationScatter);
