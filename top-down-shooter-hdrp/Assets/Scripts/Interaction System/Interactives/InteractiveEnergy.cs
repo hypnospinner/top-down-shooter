@@ -8,11 +8,11 @@ class InteractiveEnergy : MonoBehaviour
     #region Fields 
 
     [SerializeField] private float StoredEnergy;    // how much energy we will add
-    [SerializeField] private float MagnetSpeed;     // 
+    [SerializeField] private float MagnetSpeed;     // how quickly object pulls to player
                                                     
-    private SphereCollider _triggerMagneticZone;    //
-    private bool _isMagniting;                      //
-    private const float _magnetikDistance = 2f;     //
+    private SphereCollider _triggerMagneticZone;    // reference to a trigger zone that tracks player
+    private bool _isMagniting;                      // whether object is magneting to player or not
+    private const float _magnetikDistance = 2f;     // trigger zone radius
 
     #endregion
 
@@ -54,6 +54,8 @@ class InteractiveEnergy : MonoBehaviour
         }
 
         playerTarget.GetComponent<PlayerManager>().Stats.Energy += StoredEnergy;
+
+        // TODO: insert consumption vfx
 
         Destroy(gameObject);
 
