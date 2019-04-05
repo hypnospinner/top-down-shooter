@@ -29,12 +29,8 @@ class InteractiveEnergy : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.name + " entered collider zone");
-
         if(other.tag == "Player" && !_isMagniting)
         {
-            Debug.Log("magneting to player");
-
             _isMagniting = true;
             StartCoroutine(MagnetToPlayer(other.transform));
         }

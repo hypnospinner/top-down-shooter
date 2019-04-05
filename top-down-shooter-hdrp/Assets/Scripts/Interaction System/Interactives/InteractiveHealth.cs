@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(SphereCollider))]
 class InteractiveHealth : MonoBehaviour
 {
     #region Fields
@@ -28,12 +29,8 @@ class InteractiveHealth : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.name + " entered collider zone");
-
         if (other.tag == "Player" && !_isMagniting)
         {
-            Debug.Log("magneting to player");
-
             _isMagniting = true;
             StartCoroutine(MagnetToPlayer(other.transform));
         }
@@ -41,6 +38,7 @@ class InteractiveHealth : MonoBehaviour
 
     private IEnumerator MagnetToPlayer(Transform playerTarget)
     {
+
         Func<float, float> f = t => 2 * t * t;
         float time = 0f;
 
