@@ -18,6 +18,7 @@ class PlayerUIManager : MonoBehaviour
 
     private void Awake()
     {
+        _healthBar.type = Image.Type.Filled;
         _healthBar.fillMethod = Image.FillMethod.Horizontal;
     }
 
@@ -33,7 +34,6 @@ class PlayerUIManager : MonoBehaviour
 
     public void UpdateHealth(float newHealthValue)
     {
-        Debug.Log("Health Changed");
         _healthBar.fillAmount = newHealthValue / 100f;
     }
     public void UpdateEnergy(float newEnergyValue)

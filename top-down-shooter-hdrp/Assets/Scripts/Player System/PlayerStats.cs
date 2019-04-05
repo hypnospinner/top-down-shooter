@@ -28,7 +28,7 @@ public class PlayerStats : MonoBehaviour
         get => _health;
         set
         {
-            _health = value;
+            _health = Mathf.Clamp(value, -1f, 100f);
             OnHealthChanged?.Invoke(_health);
             if (_health < 0) OnPlayerDead?.Invoke();
         }
