@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(SphereCollider))]
-class Energy : MonoBehaviour
+class InteractiveEnergy : MonoBehaviour
 {
     #region Fields 
 
