@@ -437,6 +437,7 @@ MonoBehaviour:
   PhysicsLayerMask:
     serializedVersion: 2
     m_Bits: 4096
+  AccuracyCoeef: 20
 --- !u!114 &3101182677942403213
 MonoBehaviour:
   m_ObjectHideFlags: 0

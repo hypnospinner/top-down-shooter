@@ -45,12 +45,17 @@ public class HyperDashAbility : Ability
 
         Vector3 direction = _inputController.PointerPosition - _inputController.transform.position;
 
+        _characterController.AccurateMovementCalculation = true;
+
         while (timer > 0f)
         {
             _characterController.MovePlayer(direction, speed);
             timer -= Time.deltaTime;
+
             yield return null;
         }
+
+        _characterController.AccurateMovementCalculation = false;
 
         _inputController.Blocked = false;
 

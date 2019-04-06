@@ -26,6 +26,7 @@ public class KinematicCharacterController: MonoBehaviour
         [SerializeField] private float PushForce;                           // how power that is applied when player hits physical obj
         [SerializeField] private float PlayerMass;                          // mass for calculating impact
         [SerializeField] private LayerMask PhysicsLayerMask;                // layer mask for interaction with physical objects
+        [SerializeField] private int AccuracyCoeef;                         // how many calculations should be done wen calculating mevement accuratly
 
     // private fields
 
@@ -35,6 +36,13 @@ public class KinematicCharacterController: MonoBehaviour
 
     private const float k_groundSticknessAccuracy = 0.01f;                  // minimum distance to be mesured for calculating grounding
     private const float k_gravity = 9.8f;                                   // gravity acceleration
+
+    private bool _accurateMovementCalculation;
+
+    public bool AccurateMovementCalculation
+    {
+        set => _accurateMovementCalculation = value;
+    }
 
     #endregion
 
@@ -59,6 +67,9 @@ public class KinematicCharacterController: MonoBehaviour
             GroundingChecker.localPosition = _groundingCollider.center;
         }
         else Debug.LogError("Grounding checker is not set!!!");
+
+        _accurateMovementCalculation = false;
+        if (AccuracyCoeef == 0) AccuracyCoeef = 1;
     }
 
     // moves player to direction with velocity
@@ -66,7 +77,15 @@ public class KinematicCharacterController: MonoBehaviour
     {
         direction.Normalize();
 
-        transform.position += direction * velocity * Time.fixedDeltaTime;
+        if (_accurateMovementCalculation)
+        {
+            for (int i = 0; i < AccuracyCoeef; i++)
+            {
+                transform.position += direction * velocity / AccuracyCoeef * Time.fixedDeltaTime;
+                ResolveCollision();
+            }
+        }
+        else transform.position += direction * velocity * Time.fixedDeltaTime;
     }
 
     // gravity and grounding
