@@ -166,9 +166,10 @@ MonoBehaviour:
   punctualIntensity: 600
   areaIntensity: 200
   enableSpotReflector: 0
+  luxAtDistance: 1
   m_InnerSpotPercent: 0
   lightDimmer: 1
-  volumetricDimmer: 1
+  m_VolumetricDimmer: 1
   lightUnit: 0
   sunDiskSize: 1
   sunHaloSize: 0.1
@@ -185,6 +186,7 @@ MonoBehaviour:
   maxSmoothness: 0.99
   applyRangeAttenuation: 1
   useOldInspector: 0
+  useVolumetric: 1
   featuresFoldout: 1
   showAdditionalSettings: 0
   displayLightIntensity: 600
@@ -194,6 +196,7 @@ MonoBehaviour:
   shadowSoftness: 0.5
   blockerSampleCount: 24
   filterSampleCount: 32
+  minFilterSize: 0.00001
 --- !u!114 &6014833755139716365
 MonoBehaviour:
   m_ObjectHideFlags: 0

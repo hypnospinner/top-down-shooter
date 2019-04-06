@@ -9,16 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: d3cb94c5fa723fa44a52c387a97eeb29, type: 3}
   m_Name: smasher-weapon-data
   m_EditorClassIdentifier: Assembly-CSharp::ShotgunWeaponData
   weaponPrefab: {fileID: 1614537721672004802, guid: 77e63b137c1b56945a5296d933ba8ed9,
     type: 3}
   projectilePrefab: {fileID: 7294059647942598568, guid: 3428bdee2aa48444b994f661b9d76474,
     type: 3}
-  fireRate: 3
-  energyConsumption: 10
-  weaponIcon: {fileID: 21300000, guid: 2875f7577c07b8c468e31621a0a21cd4, type: 3}
+  fireRate: 1.8
+  energyConsumption: 8
+  weaponIcon: {fileID: 21300000, guid: 4f5e2e47a92e1f44cb0be6957b7161b7, type: 3}
   fireDensity: 8
   positionScatter: 0.1
   rotationScatter: 5
