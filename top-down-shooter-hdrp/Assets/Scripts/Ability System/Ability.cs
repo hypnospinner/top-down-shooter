@@ -8,7 +8,9 @@ public abstract class Ability : MonoBehaviour
     [SerializeField] private float staminaConsumption;      // how much stamina ability needs to be executed
     [SerializeField] private PlayerClass playerClass;       // player class that can pick up this ability
     [SerializeField] private Sprite abilityIcon;            // what is displayed when player picked up ability
+
     protected InputHandler AbilityTrigger;                  // describes when we should call ability Execution
+    protected PlayerInputController _inputController;       // reference to input controller component
 
     public PlayerClass PlayerClass => playerClass;
     public Sprite AbilityIcon => abilityIcon;

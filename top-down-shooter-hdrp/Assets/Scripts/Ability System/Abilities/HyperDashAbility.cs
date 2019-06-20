@@ -8,7 +8,6 @@ public class HyperDashAbility : Ability
     [SerializeField][Range(0f, .5f)] private float DashTime;        // time that player needs to make a dash
     [SerializeField][Range(0f, 5f)] private float DashDistance;     // max distance that player will cover
                                                                     
-    private PlayerInputController _inputController;                 // reference to input controller component
     private KinematicCharacterController _characterController;      // reference to KCC
 
     private float speed;                                            // stores speed (in order no to recalculate)
